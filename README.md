@@ -13,8 +13,7 @@ Group members
 
 Authentication feature
 
-    - All users have to register and login before being able to use any of the features.
-
+    - All users have to register (Signup) and login before being able to use any of the features. And users can also change their username and password, delete their account and logout from the application. 
 Authorization features:
 
 We have different authorization for the 3 type of users:
