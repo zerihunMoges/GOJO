@@ -16,19 +16,6 @@ class _ChatState extends State<Chat> {
       appBar: AppBar(
         title: Text("Jenny Wilson"),
       ),
-      body: SafeArea(
-        child: Container(
-          child: Card(
-            child: Row(
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Text("Type message.."),
-                Icon(Icons.telegram)
-              ],
-            ),
-          ),
-        ),
-      ),
       
     );
   }
