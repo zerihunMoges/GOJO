@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Chats extends StatefulWidget {
@@ -25,8 +26,10 @@ class _ChatsState extends State<Chats> {
   }
 
   void _search(String query) {
-    List<Map> _searched =
-        _messages.where((user) => user["name"].contains(query)).toList();
+    List<Map> _searched = _messages
+        .where((user) =>
+            user["name"].toString().toLowerCase().contains(query.toLowerCase()))
+        .toList();
     setState(() {
       _foundChats = _searched;
     });
@@ -36,47 +39,39 @@ class _ChatsState extends State<Chats> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Messages"),
+          toolbarHeight: 120,
+          backgroundColor: Colors.white,
+          shadowColor: Colors.white,
+          title: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 5,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Messages",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                CupertinoSearchTextField(
+                  borderRadius: BorderRadius.circular(24),
+                  onChanged: (value) => _search(value),
+                ),
+              ],
+            ),
+          ),
           // search should be here.
         ),
         body: Column(
           children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.6),
-                    blurRadius: 8,
-                    offset: Offset(0, 0),
-                  ),
-                ],
-              ),
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                // // height: 38,
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 10.0,
-                ),
-                child: TextField(
-                  onChanged: (value) => _search(value),
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(50),
-                        ),
-                      ),
-                      // prefixIcon: Icon(Icons.search),
-                      suffixIcon: Icon(Icons.search),
-                      hintText: "Search"),
-                ),
-              ),
-            ),
             Expanded(
                 child: _foundChats.isNotEmpty
                     ? ListView.builder(
