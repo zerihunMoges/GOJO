@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gojo_flutter/pages/chats.dart';
+import 'package:gojo_flutter/pages/search.dart';
 
 void main() {
   runApp(GOJO());
@@ -18,6 +19,10 @@ class GOJO extends StatelessWidget {
     routes: [
       GoRoute(
         path: "/",
+        builder: (context, state) => SearchPost(),
+      ),
+      GoRoute(
+        path: "/path",
         builder: (context, state) => Chats(),
       ),
     ],
