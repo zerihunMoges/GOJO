@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gojo_flutter/profile.dart';
+import 'package:gojo_flutter/profilesetting.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Profile(),
     Profile(),
     Profile(),
+    ProfileSetting(),
     Profile(),
     Profile(),
   ];

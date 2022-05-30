@@ -91,24 +91,19 @@ class _ProfileFormState extends State<ProfileForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 15.0),
+              padding: const EdgeInsets.only(left: 12.0),
               child: Text("Full Name", style: TextStyle(color: Colors.black45, fontSize: 16, ),),
             ),
             SizedBox(height: 10,),
             Container(
               padding: EdgeInsets.only(left: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(width: 0.5,color: Colors.black38),
-                
-              ),
+             
     
               height: 50,
               child: TextFormField(
-                
                 decoration: InputDecoration(
-                  hintText: "Enter a message",
-                  border: InputBorder.none ,
+                  hintText: "Full Name",
+                 
                 ),
                 validator: (String? value) {
                 if (value == null || value.isEmpty) {
@@ -119,25 +114,71 @@ class _ProfileFormState extends State<ProfileForm> {
               ),
             ),
             SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
+           
+             Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: Text("User Name", style: TextStyle(color: Colors.black45, fontSize: 16, ),),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+             
+    
+              height: 50,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "User Name",
+                 
+                ),
+              //   validator: (String? value) {
+              //   if (value == null || value.isEmpty) {
+              //     return 'Please enter Your ';
+              //   }
+              //   return null;
+              // },
+              ),
+            ),
+            SizedBox(height: 20,),
+
+             Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: Text("Email", style: TextStyle(color: Colors.black45, fontSize: 16, ),),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              padding: EdgeInsets.only(left: 15),
+             
+    
+              height: 50,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Email",
+                 
+                ),
+                validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                return null;
+              },
+              ),
+            ),
+            SizedBox(height: 20,),
+
+             Padding(
+              padding: const EdgeInsets.only(left: 12.0),
               child: Text("Full Name", style: TextStyle(color: Colors.black45, fontSize: 16, ),),
             ),
             SizedBox(height: 10,),
             Container(
               padding: EdgeInsets.only(left: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(width: 0.5,color: Colors.black38),
-                
-              ),
+             
     
               height: 50,
               child: TextFormField(
-                
                 decoration: InputDecoration(
-                  hintText: "Enter a message",
-                  border: InputBorder.none ,
+                  hintText: "Full Name",
+                 
                 ),
                 validator: (String? value) {
                 if (value == null || value.isEmpty) {
@@ -147,101 +188,11 @@ class _ProfileFormState extends State<ProfileForm> {
               },
               ),
             ),
-
-             SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text("Full Name", style: TextStyle(color: Colors.black45, fontSize: 16, ),),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(width: 0.5,color: Colors.black38),
-                
-              ),
-    
-              height: 50,
-              child: TextFormField(
-                
-                decoration: InputDecoration(
-                  hintText: "Enter a message",
-                  border: InputBorder.none ,
-                ),
-                validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              ),
-            ),
-
-             SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text("Full Name", style: TextStyle(color: Colors.black45, fontSize: 16, ),),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(width: 0.5,color: Colors.black38),
-                
-              ),
-    
-              height: 50,
-              child: TextFormField(
-                
-                decoration: InputDecoration(
-                  hintText: "Enter a message",
-                  border: InputBorder.none ,
-                ),
-                validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              ),
-            ),
-
-             SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text("Full Name", style: TextStyle(color: Colors.black45, fontSize: 16, ),),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(width: 0.5,color: Colors.black38),
-                
-              ),
-    
-              height: 50,
-              child: TextFormField(
-                
-                decoration: InputDecoration(
-                  hintText: "Enter a message",
-                  border: InputBorder.none ,
-                ),
-                validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              ),
-            ),
-
+            SizedBox(height: 20,),
             
             
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              padding: EdgeInsets.all(5),
               child: ElevatedButton(
                 onPressed: () {
                   // Validate will return true if the form is valid, or false if
