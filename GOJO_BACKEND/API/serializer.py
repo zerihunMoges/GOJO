@@ -5,8 +5,7 @@ from rest_framework.serializers import ModelSerializer
 class PostSerializer(ModelSerializer):
     class Meta:
         model = Post
-        fields = ["user", "title", "location", "price",
-                  "area", "rooms", "payment_frequency"]
+        fields = "__all__"
 
 
 class RoomSerializer(ModelSerializer):

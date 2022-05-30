@@ -29,6 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+ASGI_APPLICATION = "GOJO_BACKEND.asgi.application"
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'API.apps.ApiConfig',
-    'rest_framework'
+    'rest_framework',
+    "channels",
+    'chat.apps.ChatConfig'
 ]
 
 MIDDLEWARE = [

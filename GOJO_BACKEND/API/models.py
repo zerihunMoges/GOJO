@@ -19,7 +19,7 @@ class Post(models.Model):
     location = models.TextField(null=True, blank=True)
     price = models.FloatField()
     area = models.FloatField()
-    rooms = models.ManyToManyField(Room)
+    rooms = models.ManyToManyField(Room, blank=True, null=True)
     payment_frequency = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
