@@ -19,7 +19,7 @@ class _loginState extends State<login> {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return Colors.pink;
+        return Colors.orange;
       }
       return Colors.blue;
     }
@@ -31,7 +31,7 @@ class _loginState extends State<login> {
             Expanded(
               flex: 1,
               child: Image(
-                image: AssetImage('assets/food_6.jpeg'),
+                image: AssetImage('assets/food_3.jpeg'),
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -79,7 +79,7 @@ class _loginState extends State<login> {
                           )),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "please enter your email";
+                          return "email not entered ";
                         }
                         return null;
                       },
@@ -110,7 +110,7 @@ class _loginState extends State<login> {
                             child: Icon(Icons
                                 .remove_red_eye), // myIcon is a 48px-wide widget.
                           ),
-                          labelText: "enter your pasword",
+                          labelText: "password not entered ",
                           border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30.0)),
@@ -162,7 +162,7 @@ class _loginState extends State<login> {
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Processing Data')),
+                              const SnackBar(content: Text('hold on please')),
                             );
                           }
                         },
