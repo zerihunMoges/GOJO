@@ -22,29 +22,16 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold ( backgroundColor:Color.fromARGB(255, 0, 16, 32), 
+    return Scaffold ( backgroundColor:Color.fromARGB(255, 239, 239, 239), 
       appBar: AppBar(toolbarHeight: 70,
-        title: Text("Jenny Wilson"),
-        backgroundColor: Color.fromARGB(255, 1, 24, 48), 
-        elevation: 10.0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 15, 20, 15),
-            child: Container(
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.call,
-                  color: Color.fromARGB(236, 0, 85, 244),
-                  size: 28,)
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(116, 41, 46, 87),
-              ),
-            ),
-          ),
-        ],
+        title: Text(
+          "Jenny Wilson", 
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20
+          ),),
+        backgroundColor: Colors.grey[200], 
+        elevation: 2.0,
       ),
       body: Column(
         children: [
@@ -66,12 +53,12 @@ class _ChatState extends State<Chat> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),              
-                    color: Color.fromARGB(255, 3, 37, 66),
+                    color: Colors.white,
                     child: Padding(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.all(6),
                       child: Text(
                         DateFormat.MMMd().format(message.date),
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.grey[600]),
                       ), 
                     ),
                   ),
@@ -79,17 +66,17 @@ class _ChatState extends State<Chat> {
               ),
               itemBuilder: (context, Message message) => Align(
                 alignment: message.SentByMe ?Alignment.centerRight: Alignment.centerLeft,
-                child: Bubble(
+                child: Bubble( 
                   nipWidth: 9,
                   nipHeight: 6,
                   margin: const BubbleEdges.only(top: 5),
                       nip: (message.SentByMe ==false?BubbleNip.leftBottom:BubbleNip.rightBottom),
-                      color: (message.SentByMe  == false?Color.fromARGB(116, 29, 45, 84):Color.fromARGB(255, 38, 83, 197)),
+                      color: (message.SentByMe  == false?Colors.white: Color.fromARGB(122, 3, 48, 88) ),
                   child:Padding(
                       padding: EdgeInsets.all(2),
                       child: Text(
                         message.Content,
-                        style: TextStyle(color: Color.fromARGB(255, 248, 242, 242)),), 
+                        style: TextStyle(color: Colors.black87),), 
                     ),
                 ),
               ),
@@ -104,7 +91,7 @@ class _ChatState extends State<Chat> {
                 height:55,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(116, 38, 44, 87),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(16)
                 ),
                 child: Row( 
@@ -112,23 +99,26 @@ class _ChatState extends State<Chat> {
                     Expanded(
                       child: TextField(
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 0, 0, 0),
                           fontSize: 20),
                         decoration: InputDecoration(
-                          hintText: "Type message...",
+                          hintText: "Type message.........",
                           hintStyle: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black87,
                             fontSize: 18),
                           border: InputBorder.none
                         ),
                       ),
-                    ),                    
-                    FloatingActionButton( backgroundColor:Color.fromARGB(37, 46, 53, 104),
-                      onPressed: () {  },
-                      child: Icon(
-                          Icons.send,
-                          color: Color.fromARGB(255, 31, 97, 249),
-                          size: 20,
+                    ),          
+                    SizedBox(
+                      height: 40,
+                      child: FloatingActionButton( backgroundColor:Colors.white,
+                        onPressed: ( ){},
+                        child: Icon(
+                            Icons.send,
+                            color: Color.fromARGB(255, 31, 97, 249),
+                            size: 20,
+                        ),
                       ),
                     ),
                   ],
