@@ -1,35 +1,51 @@
+import 'package:jwt_decode/jwt_decode.dart';
+
 class User {
-  late String? userId;
+  late String? id;
   late String username;
   late String name;
-  late String lastLogin;
+  late String last_name;
   late String email;
+  late String access_token;
+  late String refresh_token;
 
   User(
-      {required this.userId,
+      {required this.id,
       required this.username,
       required this.name,
-      required this.lastLogin,
-      required this.email});
-
+      required this.last_name,
+      required this.email,
+      required this.access_token,
+      required this.refresh_token});
 
   User.fromJson(Map<String, dynamic> json) {
-    userId = json['userId'];
+    id = json['id'];
     username = json['username'];
-    name = json['name'];
-    lastLogin = json['lastLogin'];
+    name = json['first_name'];
+    last_name = json['last_name'];
     email = json['email'];
   }
 
-   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['username'] = this.username;
-    data['name'] = this.name;
-    data['lastLogin'] = this.lastLogin;
-    data['email'] = this.email;
-    return data;
+  User.fromJWT(Map<String, dynamic> json) {
+    Map<String, dynamic> userInfo = Jwt.parseJwt(json['access']);
+
+    id = userInfo['id'];
+    username = userInfo['username'];
+    name = userInfo['first_name'];
+    last_name = userInfo['last_name'];
+    email = userInfo['email'];
+    access_token = json['access'];
+    refresh_token = json['refresh'];
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userId'] = this.id;
+    data['username'] = this.username;
+    data['name'] = this.name;
+    data['lastLogin'] = this.last_name;
+    data['email'] = this.email;
 
+    return data;
+  }
 }

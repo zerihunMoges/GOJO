@@ -2,7 +2,7 @@ import '../data_provider/data_provider.dart';
 import 'package:http/http.dart' as http;
 
 class AuthenticationRemote implements AuthenticationProvider {
-  final _uri = Uri.parse("http://local_host/uer/login");
+  final _uri = Uri.parse("http://127.0.0.1:8000/api/v1/token");
   @override
   Future<http.Response> authenticateUser(
       String username, String password) async {
