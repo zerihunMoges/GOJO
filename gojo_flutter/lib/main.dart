@@ -41,6 +41,15 @@ class GOJO extends StatelessWidget {
         path: "/",
         builder: (context, state) => Chats(),
       ),
+      GoRoute(
+        path: "/chat/:id",
+        builder: (context, state) => BlocProvider(
+          create: (context) =>
+              MessageBloc(MessageRepository(MessageDataProvider()))
+                ..add(LoadMessages(state.params["id"]!)),
+          child: ChatDetail(),
+        ),
+      ),
     ],
   );
 }

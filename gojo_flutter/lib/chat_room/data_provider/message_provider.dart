@@ -1,76 +1,56 @@
-// import 'dart:convert';
+import 'dart:convert';
+import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
+import '../model/model.dart';
 
-// import 'package:meta/meta.dart';
-// import 'package:http/http.dart' as http;
+class MessageDataProvider {
+  final _baseUrl = 'http://127.0.0.1:8000//api/v1';
+  final http.Client httpClient = http.Client();
 
-// class CourseDataProvider {
-//   final _baseUrl = 'http://192.168.56.1:3000';
-//   final http.Client httpClient;
+  MessageDataProvider();
 
-//   CourseDataProvider({@required this.httpClient}) : assert(httpClient != null);
+  Future<Message> createMessage(String chat_id, Message message) async {
+    final response = await httpClient.post(
+      Uri.http(_baseUrl, '/chat/$chat_id/messages'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'text': message.text,
+        'user': message.owner,
+        'chat': message.chat,
+        'time': message.time
+      }),
+    );
 
-//   Future<Course> createCourse(Course course) async {
-//     final response = await httpClient.post(
-//       Uri.http('192.168.56.1:3000', '/courses'),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         'title': course.title,
-//         'code': course.code,
-//         'description': course.description,
-//         'ects': course.ects,
-//       }),
-//     );
+    if (response.statusCode == 201) {
+      return Message.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to create Message.');
+    }
+  }
 
-//     if (response.statusCode == 200) {
-//       return Course.fromJson(jsonDecode(response.body));
-//     } else {
-//       throw Exception('Failed to create course.');
-//     }
-//   }
+  Future<List<Message>> getMessages(String chatId) async {
+    final response = await httpClient.get('$_baseUrl/chat/$chatId/messages');
 
-//   Future<List<Course>> getCourses() async {
-//     final response = await httpClient.get('$_baseUrl/courses');
+    if (response.statusCode == 200) {
+      final messages = jsonDecode(response.body) as List;
+      return messages.map((message) => Message.fromJson(message)).toList();
+    } else {
+      throw Exception('Failed to load Messages');
+    }
+  }
 
-//     if (response.statusCode == 200) {
-//       final courses = jsonDecode(response.body) as List;
-//       return courses.map((course) => Course.fromJson(course)).toList();
-//     } else {
-//       throw Exception('Failed to load courses');
-//     }
-//   }
+  Future<void> deleteMessage(String chatId, Message message) async {
+    final http.Response response = await httpClient.delete(
+      '$_baseUrl/chat/$chatId/message/${message}',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
 
-//   Future<void> deleteCourse(String id) async {
-//     final http.Response response = await httpClient.delete(
-//       '$_baseUrl/courses/$id',
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//     );
-
-//     if (response.statusCode != 204) {
-//       throw Exception('Failed to delete course.');
-//     }
-//   }
-
-//   Future<void> updateCourse(Course course) async {
-//     final http.Response response = await httpClient.put(
-//       '$_baseUrl/courses/${course.id}',
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         'id': course.id,
-//         'title': course.title,
-//         'code': course.code,
-//         'description': course.description,
-//         'ects': course.ects,
-//       }),
-//     );
-
-//     if (response.statusCode != 204) {
-//       throw Exception('Failed to update course.');
-//     }
-//   }
-// }
+    if (response.statusCode != 204) {
+      throw Exception('Failed to delete Message.');
+    }
+  }
+}

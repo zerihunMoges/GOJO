@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../repository/repository.dart';
+import '../../repository/repository.dart';
 import './chat_event.dart';
 import './chat_state.dart';
 

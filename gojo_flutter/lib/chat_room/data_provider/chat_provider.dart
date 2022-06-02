@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../model/model.dart';
 
 class ChatDataProvider {
-  final _baseUrl = 'http://192.168.56.1:8000/api/v1';
+  final _baseUrl = 'http://127.0.0.1:8000//api/v1';
   final http.Client httpClient = http.Client();
 
   ChatDataProvider();

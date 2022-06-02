@@ -3,25 +3,8 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:bubble/bubble.dart';
 
-class Chat extends StatelessWidget {
-  List<Message> messages = [
-    Message(
-        Content: "Hi jenny wilson how you doin'...",
-        SentByMe: false,
-        date: DateTime.now().subtract(Duration(minutes: 1))),
-    Message(
-        Content: "Hey adem hows everything..",
-        SentByMe: true,
-        date: DateTime.now().subtract(Duration(minutes: 2))),
-    Message(
-        Content: "i am looking for a suitable place to live in",
-        SentByMe: false,
-        date: DateTime.now().subtract(Duration(minutes: 3))),
-    Message(
-        Content: "simply dummy text of the printing industry. ",
-        SentByMe: true,
-        date: DateTime.now().subtract(Duration(minutes: 4))),
-  ];
+class ChatDetail extends StatelessWidget {
+  DateTime time = DateTime.now().subtract(Duration(minutes: 1));
 
   @override
   Widget build(BuildContext context) {
@@ -148,14 +131,14 @@ class Chat extends StatelessWidget {
   }
 }
 
-class Message {
-  final String Content;
-  final bool SentByMe;
-  final DateTime date;
+// class Message {
+//   final String Content;
+//   final bool SentByMe;
+//   final DateTime date;
 
-  Message({
-    required this.Content,
-    required this.SentByMe,
-    required this.date,
-  });
-}
+//   Message({
+//     required this.Content,
+//     required this.SentByMe,
+//     required this.date,
+//   });
+// }

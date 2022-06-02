@@ -1,3 +1,2 @@
-export './chat_bloc.dart';
-export './chat_event.dart';
-export './chat_state.dart';
+export './chat/chat_room.dart';
+export './message/message.dart';
