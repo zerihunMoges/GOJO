@@ -11,11 +11,12 @@ class PostState extends Equatable {
 }
 
 class PostLoading extends PostState{}
+class PostCreating extends PostState{}
 
 class PostLoadSuccess extends PostState{
-  List<Post> posts;
+  final List<Post> posts;
 
-  PostLoadSuccess([this.posts = const []]);
+  const PostLoadSuccess([this.posts = const []]);
 
   @override
   List<Object> get props => [posts];

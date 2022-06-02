@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gojo_flutter/homescreen.dart';
+// import 'package:gojo_flutter/homescreen.dart';
+import 'package:gojo_flutter/post/screens/home_screen.dart';
 import 'package:gojo_flutter/profile.dart'; 
 
 void main() {

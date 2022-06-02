@@ -1,6 +1,8 @@
+from compat import url
 from django.urls import path
 from .views import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.urls import path, include
 
 
 urlpatterns = [
@@ -13,5 +15,6 @@ urlpatterns = [
     path("users", ListUsers.as_view(), name="users"),
     path("register", RegisterView.as_view(), name="register"),
     path("login", LoginView.as_view(), name="login"),
+    url(r'^rest-auth/', include('rest_auth.urls'))
     
 ]

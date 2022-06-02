@@ -1,10 +1,11 @@
 import 'package:flutter/widgets.dart';
+import 'package:gojo_flutter/post/dataprovider/post_data.dart';
 import 'package:gojo_flutter/post/models/post.dart';
 
-class CourseRepository {
+class PostRepository {
   final PostDataProvider dataProvider;
 
-  CourseRepository({@required this.dataProvider})
+  PostRepository({required this.dataProvider})
       : assert(dataProvider != null);
 
   Future<Post> createPost(Post Post) async {
@@ -15,8 +16,8 @@ class CourseRepository {
     return await dataProvider.getPosts();
   }
 
-  Future<void> updatePost(Post ost) async {
-    await dataProvider.updatePost(Post);
+  Future<void> updatePost(Post post) async {
+    await dataProvider.updatePost(post);
   }
 
   Future<void> deletePost(String id) async {

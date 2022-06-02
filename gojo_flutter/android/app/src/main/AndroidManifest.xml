@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gojo_flutter">
+    <uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="gojo_flutter"
         android:name="${applicationName}"
@@ -30,5 +32,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            
     </application>
 </manifest>

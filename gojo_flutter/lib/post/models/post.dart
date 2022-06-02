@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ class Post extends Equatable {
   Post({
     required this.id,
     required this.title,
-    required this.user,
+    required this.username,
     required this.photo,
     required this.price,
     required this.area,
@@ -18,10 +18,10 @@ class Post extends Equatable {
 
   final String id;
   final String title;
-  final User user;
+  final String username;
   final Image photo;
-  final Float price;
-  final Float area;
+  final double price;
+  final double area;
   final List<Room> rooms;
   final int payment_frequency;
   final String location;
@@ -34,7 +34,7 @@ class Post extends Equatable {
     return Post(
         id: json['id'],
         title: json['title'],
-        user: json['user'],
+        username: json['user'],
         photo: json['photo'],
         price: json['price'],
         area: json['area'],
@@ -45,7 +45,7 @@ class Post extends Equatable {
   @override
 
   List<Object?> get props =>
-      [id, title, user, photo, price, area, rooms, payment_frequency, location];
+      [id, title, username, photo, price, area, rooms, payment_frequency, location];
 }
 
 class Room extends Equatable {
