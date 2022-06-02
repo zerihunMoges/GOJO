@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gojo_flutter/login_and_post/Create_post.dart';
 import 'package:gojo_flutter/login_and_post/login/index.dart';
 import 'package:gojo_flutter/login_and_post/login/repository/authentication_repository.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
    MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final AuthBloc authBloc =
       AuthBloc(AuthenticationRepo(AuthenticationRemote()));
 
@@ -31,7 +38,9 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: Scaffold(
+          body: Create_post(),
+        ),
       ),
     );
   }

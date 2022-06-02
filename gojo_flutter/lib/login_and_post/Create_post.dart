@@ -95,7 +95,7 @@ class _Create_postState extends State<Create_post> {
                 SizedBox(
                   width: 15,
                 ),
-                Text("bed room number"),
+                Text("Room number"),
                 Icon(
                   Icons.star_rate_rounded,
                   size: 6,
@@ -105,20 +105,121 @@ class _Create_postState extends State<Create_post> {
               SizedBox(
                 height: 9,
               ),
-              TextFormField(
-                      decoration: InputDecoration(
-                          labelText: "0,1,2,4....",
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0)),
-                          )),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "please enter the number of bedrooms";
-                        }
-                        return null;
-                      },
-                    ),
+              Text("Bed room")
+              ,
+              SizedBox(
+                height: 9,
+              ),
+              
+                Padding(
+                  padding: EdgeInsets.only(right: 500),
+                  child: TextFormField(
+                    
+                  style: TextStyle(),
+                        decoration: InputDecoration(
+                            
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            )),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "please enter the number of bedrooms";
+                          }
+                          return null;
+                        },
+                      ),
+                ),
+
+                SizedBox(
+                height: 9,
+              ),
+              Text("Bath room")
+              ,
+              SizedBox(
+                height: 9,
+              ),
+              
+                Padding(
+                  padding: EdgeInsets.only(right: 500),
+                  child: TextFormField(
+                    
+                  style: TextStyle(),
+                        decoration: InputDecoration(
+                            
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            )),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "please enter the number of bedrooms";
+                          }
+                          return null;
+                        },
+                      ),
+                ),
+
+                SizedBox(
+                height: 9,
+              ),
+              Text("living room")
+              ,
+              SizedBox(
+                height: 9,
+              ),
+              
+                Padding(
+                  padding: EdgeInsets.only(right: 500),
+                  child: TextFormField(
+                    
+                  style: TextStyle(),
+                        decoration: InputDecoration(
+                            
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            )),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "please enter the number of bedrooms";
+                          }
+                          return null;
+                        },
+                      ),
+                ),
+
+                SizedBox(
+                height: 9,
+              ),
+              Text("kitchen")
+              ,
+              SizedBox(
+                height: 9,
+              ),
+              
+                Padding(
+                  padding: EdgeInsets.only(right: 500),
+                  child: TextFormField(
+                    
+                  style: TextStyle(),
+                        decoration: InputDecoration(
+                            
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                            )),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "please enter the number of bedrooms";
+                          }
+                          return null;
+                        },
+                      ),
+                ),
+              
+              
+              
               SizedBox(
                 height: 15,
               ),

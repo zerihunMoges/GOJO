@@ -13,6 +13,7 @@ class AuthenticationRepo {
   Future<ApiResponse> loginUser(String username, String password) async {
     try {
       final response = await authProvider.authenticateUser(username, password);
+      
 
       switch (response.statusCode) {
         case 200:
