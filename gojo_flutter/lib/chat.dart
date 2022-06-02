@@ -17,6 +17,19 @@ class _ChatState extends State<Chat> {
     Message(Content: "Hey adem hows everything..", SentByMe: true,date: DateTime.now().subtract(Duration(minutes: 2))),
     Message(Content: "i am looking for a suitable place to live in", SentByMe: false,date: DateTime.now().subtract(Duration(minutes: 3))),
     Message(Content: "simply dummy text of the printing industry. ", SentByMe: true, date:DateTime.now().subtract(Duration(minutes: 4)) ),
+    Message(Content: "dummy text of the printing industry. ", SentByMe: true, date:DateTime.now().subtract(Duration(minutes: 5)) ),
+    Message(Content: " text of the printing industry. ", SentByMe: true, date:DateTime.now().subtract(Duration(minutes: 6)) ),
+    Message(Content: "the printing industry. ", SentByMe: true, date:DateTime.now().subtract(Duration(minutes: 5)) ),
+    Message(Content: "print of the printing industry. ", SentByMe: true, date:DateTime.now().subtract(Duration(minutes: 4)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    Message(Content: "Hi jenny wilson how you doin'...", SentByMe: false, date:DateTime.now().subtract(Duration(minutes: 1)) ),
+    
     
   ];
 
@@ -48,18 +61,20 @@ class _ChatState extends State<Chat> {
               ),
               groupHeaderBuilder: (Message message) =>SizedBox(
                 height: 40,
-                child: Center(
-                  child: Card(     
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),              
-                    color: Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.all(6),
-                      child: Text(
-                        DateFormat.MMMd().format(message.date),
-                        style: TextStyle(color: Colors.grey[600]),
-                      ), 
+                child: Align(
+                  child: Center(
+                    child: Card(     
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),              
+                      color: Colors.white,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: Text(
+                          DateFormat.MMMd().format(message.date),
+                          style: TextStyle(color: Colors.grey[600]),
+                        ), 
+                      ),
                     ),
                   ),
                 ),
@@ -70,7 +85,7 @@ class _ChatState extends State<Chat> {
                   nipWidth: 9,
                   nipHeight: 6,
                   margin: const BubbleEdges.only(top: 5),
-                      nip: (message.SentByMe ==false?BubbleNip.leftBottom:BubbleNip.rightBottom),
+                      nip: (message.SentByMe == false?BubbleNip.leftBottom:BubbleNip.rightBottom),
                       color: (message.SentByMe  == false?Colors.white: Color.fromARGB(122, 3, 48, 88) ),
                   child:Padding(
                       padding: EdgeInsets.all(2),
@@ -82,6 +97,7 @@ class _ChatState extends State<Chat> {
               ),
             )
           ),
+          //message to be sent 
           Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
