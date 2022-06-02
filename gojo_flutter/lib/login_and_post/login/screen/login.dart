@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gojo_flutter/login_and_post/Create_post.dart';
+import 'package:gojo_flutter/login_and_post/login/bloc/auth_bloc.dart';
+import 'package:gojo_flutter/login_and_post/login/bloc/auth_event.dart';
+import 'package:gojo_flutter/login_and_post/login/bloc/auth_state.dart';
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -9,6 +14,8 @@ class login extends StatefulWidget {
 
 class _loginState extends State<login> {
   final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -71,6 +78,7 @@ class _loginState extends State<login> {
                       height: 15,
                     ),
                     TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           labelText: "enter your email please",
                           border: OutlineInputBorder(
@@ -103,6 +111,7 @@ class _loginState extends State<login> {
                       height: 15,
                     ),
                     TextFormField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           suffixIcon: Padding(
                             padding:
@@ -151,38 +160,76 @@ class _loginState extends State<login> {
                       height: 15,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
-                        onPressed: () {
-                          // Validate returns true if the form is valid, or false otherwise.
-                          if (_formKey.currentState!.validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('hold on please')),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        child: BlocConsumer<AuthBloc, AuthState>(
+                          listenWhen: ((previous, current) {
+                            return current is LoginSuccessful;
+                          }),
+                          listener: (_, AuthState state) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => Create_post()),
                             );
-                          }
-                        },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Sign in'),
-                                  SizedBox(
-                                    height: 10,
-                                  )
-                                ],
-                              )
-                            ]),
-                      ),
-                    ),
+                          },
+                          builder: (_, AuthState state) {
+                            Widget buttonChange = const Text("Log in");
+                            if (state is LoginIn) {
+                              buttonChange = const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              );
+                            }
+                            if (state is LoginSuccessful) {
+                              buttonChange = const Text("Login Successful");
+                            }
+                            if (state is LoginFailed) {
+                              buttonChange = const Text("Login failed");
+                            }
+
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                textStyle: const TextStyle(fontSize: 20),
+                              ),
+                              onPressed: state is LoginIn
+                                  ? null
+                                  : () {
+                                      // Validate returns true if the form is valid, or false otherwise.
+                                      if (_formKey.currentState!.validate()) {
+                                        // If the form is valid, display a snackbar. In the real world,
+                                        // you'd often call a server or save the information in a database.
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text('hold on please')),
+                                        );
+                                      }
+                                      final authBloc =
+                                          BlocProvider.of<AuthBloc>(context);
+                                      authBloc.add(Login(
+                                          email: emailController.text,
+                                          pass: passwordController.text));
+                                    },
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        buttonChange,
+                                        SizedBox(
+                                          height: 10,
+                                        )
+                                      ],
+                                    )
+                                  ]),
+                            );
+                          },
+                        )),
                     SizedBox(
                       height: 15,
                     ),

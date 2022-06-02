@@ -8,6 +8,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _onLogin(Login event, Emitter eimt) async {
+    print(event.pass);
     emit(LoginIn());
     await Future.delayed(const Duration(seconds: 3));
     emit(LoginSuccessful());
