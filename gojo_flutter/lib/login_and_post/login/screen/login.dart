@@ -4,6 +4,7 @@ import 'package:gojo_flutter/login_and_post/Create_post.dart';
 import 'package:gojo_flutter/login_and_post/login/bloc/auth_bloc.dart';
 import 'package:gojo_flutter/login_and_post/login/bloc/auth_event.dart';
 import 'package:gojo_flutter/login_and_post/login/bloc/auth_state.dart';
+import 'package:go_router/go_router.dart';
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -166,10 +167,12 @@ class _loginState extends State<login> {
                             return current is LoginSuccessful;
                           }),
                           listener: (_, AuthState state) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => Create_post()),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (_) => Create_post()),
+                            // );
+                            context.go("/home");
+                            // u should pass the state value id to the other page
                           },
                           builder: (_, AuthState state) {
                             Widget buttonChange = const Text("Log in");
@@ -186,7 +189,7 @@ class _loginState extends State<login> {
                               buttonChange = const Text("Login Successful");
                             }
                             if (state is LoginFailed) {
-                              buttonChange = const Text("Login failed");
+                              buttonChange = Text('${state.error}');
                             }
 
                             return ElevatedButton(

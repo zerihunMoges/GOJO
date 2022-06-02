@@ -1,5 +1,17 @@
-abstract class AuthState{}
-class Idle extends AuthState{}
-class LoginIn extends AuthState{}
-class LoginSuccessful extends AuthState{}
-class LoginFailed extends AuthState{}
+import 'package:gojo_flutter/login_and_post/login/model/user.dart';
+
+abstract class AuthState {}
+
+class Idle extends AuthState {}
+
+class LoginIn extends AuthState {}
+
+class LoginSuccessful extends AuthState {
+  User? userId;
+  LoginSuccessful(this.userId);
+}
+
+class LoginFailed extends AuthState {
+  String? error;
+  LoginFailed(this.error);
+}

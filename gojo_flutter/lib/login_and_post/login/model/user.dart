@@ -1,5 +1,5 @@
 class User {
-  late String userId;
+  late String? userId;
   late String username;
   late String name;
   late String lastLogin;
