@@ -39,7 +39,7 @@ class GOJO extends StatelessWidget {
       ),
       GoRoute(
         path: "/",
-        builder: (context, state) => Chats(),
+        builder: (context, state) => ChatList(),
       ),
       GoRoute(
         path: "/chat/:id",

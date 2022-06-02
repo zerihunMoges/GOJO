@@ -31,7 +31,8 @@ class MessageDataProvider {
   }
 
   Future<List<Message>> getMessages(String chatId) async {
-    final response = await httpClient.get('$_baseUrl/chat/$chatId/messages');
+    final response =
+        await httpClient.get(Uri.parse('$_baseUrl/chat/$chatId/messages'));
 
     if (response.statusCode == 200) {
       final messages = jsonDecode(response.body) as List;
@@ -43,7 +44,7 @@ class MessageDataProvider {
 
   Future<void> deleteMessage(String chatId, Message message) async {
     final http.Response response = await httpClient.delete(
-      '$_baseUrl/chat/$chatId/message/${message}',
+      Uri.parse('$_baseUrl/chat/$chatId/message/${message}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

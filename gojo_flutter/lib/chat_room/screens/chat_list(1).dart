@@ -5,7 +5,8 @@ import '../chat_room.dart';
 import 'package:http/http.dart' as http;
 
 class ChatList extends StatelessWidget {
-  final ChatBloc chatBloc = ChatBloc(ChatRepository(ChatDataProvider()));
+  final ChatBloc chatBloc = ChatBloc(ChatRepository(ChatDataProvider()))
+    ..add(LoadChats());
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
