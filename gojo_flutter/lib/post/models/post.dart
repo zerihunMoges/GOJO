@@ -16,17 +16,17 @@ class Post extends Equatable {
     required this.location,
   });
 
-  final String id;
+  final int id;
   final String title;
-  final String username;
-  final Image photo;
+  final int username;
+  final String photo;
   final double price;
   final double area;
   final List<Room> rooms;
   final int payment_frequency;
   final String location;
 
-  factory Post.fromJson(Map<String, dynamic> json) {
+  factory Post.fromJson(Map<dynamic, dynamic> json) {
     List<Room> rooms = [];
     for (var item in json['rooms']) {
       rooms.add(Room.fromJson(item));
@@ -51,15 +51,15 @@ class Post extends Equatable {
 class Room extends Equatable {
   Room({required this.id, required this.type, required this.count});
 
-  final String id;
+  final int id;
   final String type;
   final int count;
 
-  factory Room.fromJson(Map<String, dynamic> json) {
+  factory Room.fromJson(Map<dynamic, dynamic> json) {
     return Room(
-        id: json['room']['id'],
-        type: json['room']['type'],
-        count: json['room']['count']);
+        id: json['id'],
+        type: json['type'],
+        count: json['count']);
   }
   @override
   List<Object?> get props => [id, type, count];

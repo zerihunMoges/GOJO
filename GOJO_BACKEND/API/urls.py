@@ -15,6 +15,6 @@ urlpatterns = [
     path("users", ListUsers.as_view(), name="users"),
     path("register", RegisterView.as_view(), name="register"),
     path("login", LoginView.as_view(), name="login"),
-    url(r'^rest-auth/', include('rest_auth.urls'))
+    path("rest-auth/", include('rest_auth.urls'))
     
 ]

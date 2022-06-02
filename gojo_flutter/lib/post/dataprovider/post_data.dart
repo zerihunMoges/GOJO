@@ -4,13 +4,13 @@ import 'package:gojo_flutter/post/models/post.dart';
 import 'package:http/http.dart' as http;
 
 class PostDataProvider {
-  final baseUrl = 'http://192.168.43.16:8000/api/v1/posts';
+  final baseUrl = 'http://127.0.0.1:8000/api/v1/posts';
   var client = http.Client();
   Future<Post> createPost(Post post) async {
     List<String> rooms = [];
 
     for (var room in post.rooms) {
-      rooms.add(jsonEncode(<String, dynamic>{
+      rooms.add(jsonEncode(<dynamic, dynamic>{
         'type': room.type,
         'count': room.count,
       }));
@@ -21,7 +21,7 @@ class PostDataProvider {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{
+      body: jsonEncode(<dynamic, dynamic>{
         'id': post.id,
         'title': post.title,
         'user': post.username,
@@ -44,12 +44,15 @@ class PostDataProvider {
     print(Uri.parse(baseUrl));
     try {
       final response = await client.get(Uri.parse(baseUrl));
-      print(response.body);
+
       if (response.statusCode == 200) {
         print("made it here");
         List<Post> posts = [];
-        for (var post in jsonDecode(response.body)) {
-          posts.add(Post.fromJson(post));
+        List<dynamic> postse = jsonDecode(response.body);
+        for (var json in postse) {
+          
+          print("this is the json $json");
+          posts.add(Post.fromJson(json));
         }
 
         return posts;
@@ -62,7 +65,7 @@ class PostDataProvider {
     return [];
   }
 
-  Future<Post> getPost(String id) async {
+  Future<Post> getPost(int id) async {
     final response = await client.get(Uri.parse("$baseUrl/$id"));
 
     if (response.statusCode == 200) {
@@ -76,7 +79,7 @@ class PostDataProvider {
     List<String> rooms = [];
 
     for (var room in post.rooms) {
-      rooms.add(jsonEncode(<String, dynamic>{
+      rooms.add(jsonEncode(<dynamic, dynamic>{
         'type': room.type,
         'count': room.count,
       }));
@@ -87,7 +90,7 @@ class PostDataProvider {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{
+      body: jsonEncode(<dynamic, dynamic>{
         'id': post.id,
         'title': post.title,
         'user': post.username,
@@ -105,7 +108,7 @@ class PostDataProvider {
     }
   }
 
-  Future<void> deletePost(String id) async {
+  Future<void> deletePost(int id) async {
     final response = await client.delete(
       Uri.parse("$baseUrl/$id"),
       headers: <String, String>{

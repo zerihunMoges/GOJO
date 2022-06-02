@@ -237,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               topRight: Radius.circular(15)),
                                           clipBehavior: Clip.antiAlias,
                                           child: Opacity(
-                                              opacity: 0.9, child: post.photo),
+                                              opacity: 0.9, child:Image.network(post.photo)),
                                         ),
                                       ),
                                       Positioned(
@@ -470,7 +470,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               topRight: Radius.circular(15)),
                                           clipBehavior: Clip.antiAlias,
                                           child: Opacity(
-                                              opacity: 0.9, child: post.photo),
+                                              opacity: 0.9, child: Image.network(post.photo)),
                                         ),
                                       ),
                                       Positioned(
