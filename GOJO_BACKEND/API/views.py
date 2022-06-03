@@ -1,3 +1,4 @@
+from functools import partial
 from urllib import response
 from django.shortcuts import render
 from httplib2 import Authentication
@@ -85,21 +86,20 @@ class UserView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, pk):
-        try:
-            user = User.objects.get(id=pk)
-            serialized = UserSerializer(instance=user, data=request.data)
-            if serialized.is_valid():
-                serialized.save()
-
-                return Response(serialized.data)
-            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response( status=status.HTTP_400_BAD_REQUEST)
+        user = User.objects.get(id=pk)
+        print(user)
+        serialized = UserSerializer(user, data=request.data)
+        print(serialized)
+        if serialized.is_valid():
+            serialized.save()
+            return Response(serialized.data)
+        return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
     def patch(self, request, pk):
         try:
             user = User.objects.get(id=pk)
-            serialized = UserSerializer(instance=user, data=request.data)
+            serialized = UserSerializer(instance=user, data=request.data, partial=True)
             if serialized.is_valid():
                 serialized.save()
                 

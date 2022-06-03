@@ -8,7 +8,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository =
       UserRepository(dataProvider: UserDataProvider());
 
-  UserBloc(UserRepository) : super(UserUpdating()) {
+  UserBloc(UserRepository) : super(UserUpdateSuccess()) {
     on<UserUpdate>(_onUserUpdate);
   }
 

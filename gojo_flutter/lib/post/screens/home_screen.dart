@@ -21,12 +21,26 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _idx = 0;
   List pages = [
-    Profile(User(email: "tolos", firstname: "ahmed", lastname: "kod", photo: "dkjfdk", id: 1, username: "fdkjfkd")),
-    Profile(User(email: "tolos", firstname: "ahmed", lastname: "kod", photo: "dkjfdk", id: 1, username: "fdkjfkd")),
-    Profile(User(email: "tolos", firstname: "ahmed", lastname: "kod", photo: "dkjfdk", id: 1, username: "fdkjfkd")),
+    Profile(User(
+        email: "tolos",
+        firstname: "ahmed",
+        lastname: "kod",
+        id: 1,
+        username: "fdkjfkd")),
+    Profile(User(
+        email: "tolos",
+        firstname: "ahmed",
+        lastname: "kod",
+        id: 1,
+        username: "fdkjfkd")),
+    Profile(User(
+        email: "tolos",
+        firstname: "ahmed",
+        lastname: "kod",
+        id: 1,
+        username: "fdkjfkd")),
     ProfileSetting(),
     PostDetail(),
- 
   ];
   @override
   Widget build(BuildContext context) {
@@ -241,7 +255,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           clipBehavior: Clip.antiAlias,
                                           child: Opacity(
                                               opacity: 0.9,
-                                              child: Image.network(post.photo)),
+                                              child: Image.network(
+                                                  "http://127.0.0.1:8000/" +
+                                                      post.photo)),
                                         ),
                                       ),
                                       Positioned(
@@ -475,7 +491,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           clipBehavior: Clip.antiAlias,
                                           child: Opacity(
                                               opacity: 0.9,
-                                              child: Image.network(post.photo)),
+                                              child: Image.network(
+                                                  "http://127.0.0.1:8000/" +
+                                                      post.photo)),
                                         ),
                                       ),
                                       Positioned(
@@ -521,6 +539,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
@@ -707,8 +726,29 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
+  RangeValues _currentRangeValues = const RangeValues(40, 80);
   @override
   Widget build(BuildContext context) {
+    Widget filter = Container(
+      child: Column(
+        children: [
+          RangeSlider(
+      values: _currentRangeValues,
+      max: 100,
+      divisions: 5,
+      labels: RangeLabels(
+        _currentRangeValues.start.round().toString(),
+        _currentRangeValues.end.round().toString(),
+      ),
+      onChanged: (RangeValues values) {
+        setState(() {
+          _currentRangeValues = values;
+        });
+      },
+      );
+        ],
+      ),
+    );
     return Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.all(20),

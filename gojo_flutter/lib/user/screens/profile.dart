@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gojo_flutter/user/bloc/user_bloc.dart';
+import 'package:gojo_flutter/user/bloc/user_event.dart';
+import 'package:gojo_flutter/user/bloc/user_state.dart';
 import 'package:gojo_flutter/user/dataprovider/user_data.dart';
 import 'package:gojo_flutter/user/models/user.dart';
 import 'package:gojo_flutter/user/repository/user_repository.dart';
@@ -46,11 +48,11 @@ class _ProfileState extends State<Profile> {
     user.lastname = "Puta";
     user.email = "leavemealone@gmail.com";
     user.username = "chrisbrezzy";
+    user.id = 2;
     emailCtrl.text = user.email;
     firstCtrl.text = user.firstname;
     lastCtrl.text = user.lastname;
     usernameCtrl.text = user.username;
-    
 
     return Scaffold(
         appBar: AppBar(
@@ -68,18 +70,10 @@ class _ProfileState extends State<Profile> {
             child: ListView(
           scrollDirection: Axis.vertical,
           children: [
-            SizedBox(height: 15),
-            SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              height: 15,
-            ),
             BlocProvider(
               create: (_) => userBloc,
-              child: BlocBuilder<PostBloc, PostState>(
-
-                builder: (_, state){ Form(
+              child: BlocBuilder<UserBloc, UserState>(builder: (_, state) {
+                return Form(
                   key: _formKey,
                   child: Container(
                     padding: EdgeInsets.all(35),
@@ -88,17 +82,24 @@ class _ProfileState extends State<Profile> {
                       children: <Widget>[
                         Center(
                           child: Stack(clipBehavior: Clip.none, children: [
-                            pickedFile != null ? Image.file(
-                              File(pickedFile!.path!),
-                              width: double.infinity,
-                              height: 250,
-                              fit: BoxFit.cover,
-                            ): Image.asset("assets/food_1.jpeg"),
+                            Container(
+                              child: CircleAvatar(
+                                radius: 75,
+                                backgroundImage: pickedFile != null
+                                    ? Image.memory(
+                                        pickedFile!.bytes!,
+                                        width: 150,
+                                        height: 150,
+                                        fit: BoxFit.cover,
+                                      ).image
+                                    : Image.asset("assets/food_1.jpeg").image,
+                              ),
+                            ),
                             Positioned(
                                 height: 35,
                                 width: 35,
                                 bottom: 0,
-                                right: -3,
+                                right: 5,
                                 child: RawMaterialButton(
                                   onPressed: selectFile,
                                   fillColor: Colors.white,
@@ -115,6 +116,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ))
                           ]),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         const Divider(
                           thickness: 0.1,
@@ -149,6 +153,19 @@ class _ProfileState extends State<Profile> {
                               }
                               return null;
                             },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Text(
+                            "Last Name",
+                            style: TextStyle(
+                              color: Colors.black45,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -230,6 +247,7 @@ class _ProfileState extends State<Profile> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
                               }
+
                               return null;
                             },
                           ),
@@ -240,21 +258,24 @@ class _ProfileState extends State<Profile> {
                         Padding(
                           padding: EdgeInsets.all(5),
                           child: ElevatedButton(
-                            onPressed: () {
-                              // Validate will return true if the form is valid, or false if
-                              // the form is invalid.
-                              if (_formKey.currentState!.validate()) {
-                                // Process data.
-                              }
-                            },
-                            child:  const Text('Submit'),
-                          ),
+                              onPressed: () {
+                                // Validate will return true if the form is valid, or false if
+                                // the form is invalid.
+                                if (_formKey.currentState!.validate()) {
+                                  userBloc.add(UserUpdate(User(email: emailCtrl.text, firstname: firstCtrl.text, lastname: lastCtrl.text, username: usernameCtrl.text, id: user.id)));
+                                }
+                              },
+                              child: state is UserUpdating
+                                  ? CircularProgressIndicator()
+                                  : state is UserUpdateFailuer
+                                      ? const Text('Retry')
+                                      : Text('Submit')),
                         ),
                       ],
                     ),
                   ),
-                );}
-              ),
+                );
+              }),
             )
           ],
         )));

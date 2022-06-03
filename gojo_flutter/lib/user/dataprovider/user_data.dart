@@ -8,9 +8,6 @@ class UserDataProvider {
   final baseUrl = 'http://127.0.0.1:8000/api/v1/users';
   var client = http.Client();
   Future<User> createUser(User user) async {
-    
-
-    
     final response = await client.post(
       Uri.parse(baseUrl),
       headers: <String, String>{
@@ -19,10 +16,9 @@ class UserDataProvider {
       body: jsonEncode(<dynamic, dynamic>{
         'id': user.id,
         'username': user.username,
-        'firstname': user.firstname,
-        'lastname': user.lastname,
+        'first_name': user.firstname,
+        'last_name': user.lastname,
         'email': user.email,
-        'photo': user.photo,
       }),
     );
     if (response.statusCode == 200) {
@@ -42,7 +38,6 @@ class UserDataProvider {
         List<User> users = [];
         List<dynamic> Userse = jsonDecode(response.body);
         for (var json in Userse) {
-          
           print("this is the json $json");
           users.add(User.fromJson(json));
         }
@@ -61,6 +56,7 @@ class UserDataProvider {
     final response = await client.get(Uri.parse("$baseUrl/$id"));
 
     if (response.statusCode == 200) {
+      print("this is the user i got: " + response.body);
       return User.fromJson(jsonDecode(response.body));
     } else {
       throw Exception("failed to Load User");
@@ -68,20 +64,18 @@ class UserDataProvider {
   }
 
   Future<void> updateUser(User user) async {
-    
-    final response = await client.put(
-      Uri.parse(baseUrl),
+    print("this is the last" + user.lastname);
+    final response = await client.patch(
+      Uri.parse("$baseUrl/${user.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
         'id': user.id,
-        'user': user.username,
-        'firstname': user.firstname,
-        'lastname': user.lastname,
+        'username': user.username,
+        'first_name': user.firstname,
+        'last_name': user.lastname,
         'email': user.email,
-   
-        'photo': user.photo,
       }),
     );
 

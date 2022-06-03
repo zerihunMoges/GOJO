@@ -8,7 +8,7 @@ class User extends Equatable {
     required this.firstname,
     required this.lastname,
     required this.email,
-    required this.photo,
+  
   });
 
    int id;
@@ -16,17 +16,16 @@ class User extends Equatable {
    String firstname;
    String lastname;
    String email;
-   String photo;
+
 
   factory User.fromJson(Map<dynamic, dynamic> json) {
     return User(
         id: json['id'],
         username: json['username'],
-        photo: json['photo'],
-        firstname: json['firstname'],
-        lastname: json['lastname'],
+        firstname: json['first_name'],
+        lastname: json['last_name'],
         email: json['email']);
   }
   @override
-  List<Object?> get props => [id, username, firstname, lastname, email, photo];
+  List<Object?> get props => [id, username, firstname, lastname, email];
 }
