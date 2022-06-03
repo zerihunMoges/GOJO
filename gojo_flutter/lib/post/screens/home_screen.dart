@@ -5,8 +5,11 @@ import 'package:gojo_flutter/post/bloc/bloc.dart';
 import 'package:gojo_flutter/post/dataprovider/post_data.dart';
 import 'package:gojo_flutter/post/models/post.dart';
 import 'package:gojo_flutter/post/repository/post_repository.dart';
+import 'package:gojo_flutter/postdetail.dart';
 import 'package:gojo_flutter/profile.dart';
 import 'package:gojo_flutter/profilesetting.dart';
+import 'package:gojo_flutter/user/models/user.dart';
+import 'package:gojo_flutter/user/screens/screens.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,17 +21,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _idx = 0;
   List pages = [
-    Profile(),
-    Profile(),
-    Profile(),
+    Profile(User(email: "tolos", firstname: "ahmed", lastname: "kod", photo: "dkjfdk", id: 1, username: "fdkjfkd")),
+    Profile(User(email: "tolos", firstname: "ahmed", lastname: "kod", photo: "dkjfdk", id: 1, username: "fdkjfkd")),
+    Profile(User(email: "tolos", firstname: "ahmed", lastname: "kod", photo: "dkjfdk", id: 1, username: "fdkjfkd")),
     ProfileSetting(),
-    Profile(),
-    Profile(),
+    PostDetail(),
+ 
   ];
   @override
   Widget build(BuildContext context) {
     PostRepository postRepository =
         PostRepository(dataProvider: PostDataProvider());
+
     final postBloc = PostBloc(postRepository);
     postBloc.add(const PostLoad());
     return BlocProvider(
@@ -201,7 +205,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (_, state) {
                     if (state is PostOperationFailure) {
                       return Center(
-                      
                         child: Text("Failed"),
                       );
                     }
@@ -237,7 +240,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               topRight: Radius.circular(15)),
                                           clipBehavior: Clip.antiAlias,
                                           child: Opacity(
-                                              opacity: 0.9, child:Image.network(post.photo)),
+                                              opacity: 0.9,
+                                              child: Image.network(post.photo)),
                                         ),
                                       ),
                                       Positioned(
@@ -470,7 +474,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               topRight: Radius.circular(15)),
                                           clipBehavior: Clip.antiAlias,
                                           child: Opacity(
-                                              opacity: 0.9, child: Image.network(post.photo)),
+                                              opacity: 0.9,
+                                              child: Image.network(post.photo)),
                                         ),
                                       ),
                                       Positioned(
