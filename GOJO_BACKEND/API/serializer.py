@@ -34,8 +34,8 @@ class RoomSerializer(ModelSerializer):
 
 
 class ChatSerializer(ModelSerializer):
-    # owner1 = UserSerializer()
-    # owner2 = UserSerializer()
+    owner1 = UserSerializer()
+    owner2 = UserSerializer()
     class Meta:
         model = Chat
         fields = '__all__'

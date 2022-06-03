@@ -19,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(LoginFailed(response.error));
     } else {
       final user = response.data;
-      emit(LoginSuccessful(user));
+      emit(LoginSuccessful(user!));
     }
   }
 }

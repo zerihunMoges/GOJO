@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class login extends StatefulWidget {
-  const login({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<login> createState() => _loginState();
+  State<LoginPage> createState() => _LoginState();
 }
 
-class _loginState extends State<login> {
+class _LoginState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -31,12 +31,12 @@ class _loginState extends State<login> {
 
     return Scaffold(
       body: Container(
-        child: ListView(
+        child: Column(
           children: [
             Expanded(
               flex: 1,
               child: Image(
-                image: AssetImage('assets/food_3.jpeg'),
+                image: AssetImage('assets/melancholy.png'),
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -109,6 +109,7 @@ class _loginState extends State<login> {
                       height: 15,
                     ),
                     TextFormField(
+                      obscureText: true,
                       controller: passwordController,
                       decoration: InputDecoration(
                           suffixIcon: Padding(
@@ -168,7 +169,8 @@ class _loginState extends State<login> {
                             //   context,
                             //   MaterialPageRoute(builder: (_) => Create_post()),
                             // );
-                            context.go("/home");
+
+                            context.go("/chats");
                             // u should pass the state value id to the other page
                           },
                           builder: (_, AuthState state) {

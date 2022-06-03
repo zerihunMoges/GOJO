@@ -12,8 +12,8 @@ class Chat extends Equatable {
       required this.lastMessage});
 
   final String id;
-  final String owner1;
-  final String owner2;
+  final Map<String, dynamic> owner1;
+  final Map<String, dynamic> owner2;
   final String time;
   final String lastMessage;
 
@@ -25,8 +25,8 @@ class Chat extends Equatable {
     DateTime now = DateTime.parse(datetime);
     return Chat(
         id: json['id'].toString(),
-        owner1: json['owner1'].toString(),
-        owner2: json['owner2'].toString(),
+        owner1: json['owner1'],
+        owner2: json['owner2'],
         time: DateFormat.jm().format(now),
         lastMessage: json['last_message'].toString());
   }

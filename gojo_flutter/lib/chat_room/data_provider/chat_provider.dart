@@ -1,22 +1,21 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../model/model.dart';
+import '../../auth/model/model.dart';
 
 class ChatDataProvider {
   final _baseUrl = 'http://127.0.0.1:8000/api/v1';
   final http.Client httpClient = http.Client();
+  final User user;
 
-  ChatDataProvider();
+  ChatDataProvider(this.user);
 
   Future<Chat> createChat(Chat chat) async {
     String token =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
     final response = await httpClient.post(
       Uri.http(_baseUrl, '/chats'),
-      headers: {
-        'Authorization':
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo'
-      },
+      headers: {'Authorization': 'Bearer ${user.access_token}'},
       body: jsonEncode(<String, dynamic>{
         'owner1': chat.owner1,
         'owner2': chat.owner2,
@@ -34,7 +33,9 @@ class ChatDataProvider {
     String token =
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
     final response = await httpClient.get(Uri.parse('$_baseUrl/chats'),
-        headers: <String, String>{'Authorization': 'Bearer $token'});
+        headers: <String, String>{
+          'Authorization': 'Bearer ${user.access_token}'
+        });
 
     if (response.statusCode == 200) {
       final chats = jsonDecode(response.body) as List;
@@ -56,7 +57,7 @@ class ChatDataProvider {
       Uri.parse('$_baseUrl/chat/${chat.id}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer ${user.access_token}'
       },
     );
     if (response.statusCode != 204) {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gojo_flutter/auth/bloc/auth_bloc.dart';
+import 'package:gojo_flutter/auth/index.dart';
+import 'package:gojo_flutter/auth/repository/authentication_repository.dart';
 import 'package:gojo_flutter/pages/admin/Screens/admin.dart';
 // import 'package:gojo_flutter/pages/chats.dart';
 import 'package:gojo_flutter/pages/search.dart';
@@ -15,13 +18,9 @@ class GOJO extends StatelessWidget {
   GOJO({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
-        providers: [
-          BlocProvider<ChatBloc>(
-            create: (BuildContext context) =>
-                ChatBloc(ChatRepository(ChatDataProvider())),
-          ),
-        ],
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) =>
+            AuthBloc(AuthenticationRepo(AuthenticationRemote())),
         child: MaterialApp.router(
             routeInformationParser: _router.routeInformationParser,
             routerDelegate: _router.routerDelegate),
@@ -29,6 +28,10 @@ class GOJO extends StatelessWidget {
 
   final _router = GoRouter(
     routes: [
+      GoRoute(
+        path: "/",
+        builder: (context, state) => LoginPage(),
+      ),
       GoRoute(
         path: "/admin",
         builder: (context, state) => AdminPage(),
@@ -38,7 +41,7 @@ class GOJO extends StatelessWidget {
         builder: (context, state) => SearchPost(),
       ),
       GoRoute(
-        path: "/",
+        path: "/chats",
         builder: (context, state) => ChatList(),
       ),
       GoRoute(

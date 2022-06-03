@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../repository/repository.dart';
 import './chat_event.dart';
 import './chat_state.dart';
+import '../../../auth/index.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepository chatRepository;
@@ -14,7 +15,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   void _onLoadChats(LoadChats event, Emitter emit) async {
     emit(ChatLoading());
-    await Future.delayed(const Duration(seconds: 3));
     try {
       final chats = await chatRepository.getChats();
       emit(ChatsLoadSuccess(chats));

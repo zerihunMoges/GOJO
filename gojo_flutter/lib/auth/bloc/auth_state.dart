@@ -7,7 +7,7 @@ class Idle extends AuthState {}
 class LoginIn extends AuthState {}
 
 class LoginSuccessful extends AuthState {
-  User? userId;
+  User userId;
   LoginSuccessful(this.userId);
 }
 
