@@ -32,7 +32,7 @@ class AuthenticationRemote implements AuthenticationProvider {
         },
         body: {
           "username": user.username,
-          // "password":user.,
+          "password":user.password,
           "name": user.name,
           "last_name": user.last_name,
           "email": user.email

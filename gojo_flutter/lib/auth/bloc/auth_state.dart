@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import '../model/model.dart';
 
-abstract class AuthState {}
+abstract class AuthState  {}
 
 class Idle extends AuthState {}
 

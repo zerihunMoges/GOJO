@@ -8,6 +8,7 @@ import '../utils/Api_response.dart';
 
 class AuthenticationRepo {
   ApiResponse _apiResponse = new ApiResponse();
+  ApiResponse _apiResponse2 = new ApiResponse();
 
   AuthenticationRemote authProvider;
   AuthenticationRepo(this.authProvider);
@@ -37,18 +38,18 @@ class AuthenticationRepo {
   }
 
   Future<ApiResponse> registerUser(
-      String username, String name, String last_name, String email) async {
+      String username, String name, String last_name, String email,String password) async {
     User_register userRegister = User_register(
-        username: username, name: name, last_name: last_name, email: email);
+        username: username, name: name, last_name: last_name, email: email,password:password);
     try {
       final response = await authProvider.registerUser(userRegister);
       if (response.statusCode != 200) {
-        _apiResponse.error = "failed to register";
+        _apiResponse2.error = "failed to register";
       }
     } catch (err) {
-      _apiResponse.error = "failed to connect";
+      _apiResponse2.error = "failed to connect";
     }
 
-    return _apiResponse;
+    return _apiResponse2;
   }
 }

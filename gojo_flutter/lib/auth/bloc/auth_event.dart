@@ -12,10 +12,12 @@ class Signup extends AuthEvent {
   late String last_name;
   late String email;
   late String username;
+  late String password;
 
   Signup(
       {required this.email,
       required this.name,
       required this.last_name,
-      required username});
+      required this.username,
+      required this.password});
 }

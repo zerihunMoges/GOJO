@@ -30,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(SigningIn());
 
     final response = await repo.registerUser(
-        event.email, event.last_name, event.username, event.name);
+        event.email, event.last_name, event.username, event.name,event.password);
 
     if (response.hasErrors()) {
       emit(SigninFailed());
