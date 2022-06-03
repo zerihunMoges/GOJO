@@ -21,6 +21,12 @@ class UserSerializer(ModelSerializer):
         return instance
 
 
+class NormalUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username"]
+
+
 class PostSerializer(ModelSerializer):
     class Meta:
         model = Post
@@ -36,12 +42,15 @@ class RoomSerializer(ModelSerializer):
 class ChatSerializer(ModelSerializer):
     owner1 = UserSerializer()
     owner2 = UserSerializer()
+
     class Meta:
         model = Chat
         fields = '__all__'
 
 
 class MessageSerializer(ModelSerializer):
+    user = NormalUserSerializer()
+
     class Meta:
-        model = Message
+        model = Text
         fields = '__all__'

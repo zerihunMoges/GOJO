@@ -11,8 +11,8 @@ class ChatDataProvider {
   ChatDataProvider(this.user);
 
   Future<Chat> createChat(Chat chat) async {
-    String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
+    // String token =
+    //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
     final response = await httpClient.post(
       Uri.http(_baseUrl, '/chats'),
       headers: {'Authorization': 'Bearer ${user.access_token}'},
@@ -30,8 +30,8 @@ class ChatDataProvider {
   }
 
   Future<List<Chat>> getChats() async {
-    String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
+    // String token =
+    //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
     final response = await httpClient.get(Uri.parse('$_baseUrl/chats'),
         headers: <String, String>{
           'Authorization': 'Bearer ${user.access_token}'
@@ -51,8 +51,8 @@ class ChatDataProvider {
   }
 
   Future<void> deleteChat(Chat chat) async {
-    String token =
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
+    // String token =
+    //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU0Mjg3MzU0LCJpYXQiOjE2NTQyMDA5NTQsImp0aSI6Ijc4MzYwZjRiZDk2NjQxMDI5ZGI5ZDI4NmM3YTIxYjU4IiwidXNlcl9pZCI6MSwidXNlcm5hbWUiOiJoZW5vayIsImVtYWlsIjoiaGVub2tAZ21haWwuY29tIiwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.YzziyiJg90iOAAudJOCsLs2jQNaAmEVEdqSEDzWwzBo';
     final http.Response response = await httpClient.delete(
       Uri.parse('$_baseUrl/chat/${chat.id}'),
       headers: <String, String>{

@@ -29,7 +29,11 @@ class User {
   User.fromJWT(Map<String, dynamic> json) {
     Map<String, dynamic> userInfo = Jwt.parseJwt(json['access']);
 
-    id = userInfo['id'];
+    print("");
+    print("the user is $userInfo");
+    print("");
+
+    id = userInfo['user_id'].toString();
     username = userInfo['username'];
     name = userInfo['first_name'];
     last_name = userInfo['last_name'];

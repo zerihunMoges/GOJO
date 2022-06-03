@@ -19,6 +19,12 @@ class MessagesLoadSuccess extends MessageState {
   List<Object> get props => [messages];
 }
 
+class SendingMessage extends MessageState {}
+
+class MessageSentSuccessful extends MessageState {}
+
+class MessageSendingFailure extends MessageState {}
+
 class MessageDeleteSuccessful extends MessageState {}
 
 class MessagesLoadingFailure extends MessageState {

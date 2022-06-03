@@ -1,4 +1,4 @@
-from email import message
+from turtle import update
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
@@ -11,6 +11,28 @@ class Room(models.Model):
 
     def __str__(self) -> str:
         return self.type
+# Create your models here.
+
+
+class Chat(models.Model):
+    owner1 = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="owner1")
+    owner2 = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="owner2")
+    last_message = models.TextField(null=False, default="No Messages Yet")
+    updated = models.DateTimeField(auto_now=True)
+
+
+class Text(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user")
+    chat = models.ForeignKey(
+        Chat, on_delete=models.CASCADE, related_name="chat")
+    text = models.CharField(max_length=1000000)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.text[:10]
 
 
 class Post(models.Model):
@@ -27,22 +49,3 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
-
-# Create your models here.
-
-
-class Chat(models.Model):
-    owner1 = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="owner1")
-    owner2 = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="owner2")
-    last_message = models.TextField(null=False, default="No Messages Yet")
-    updated = models.DateTimeField(auto_now=True)
-
-
-class Message(models.Model):
-    text = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)

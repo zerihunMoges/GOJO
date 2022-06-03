@@ -4,10 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gojo_flutter/auth/bloc/auth_bloc.dart';
 import 'package:gojo_flutter/auth/bloc/auth_state.dart';
 import '../chat_room.dart';
-import 'package:http/http.dart' as http;
 import '../../auth/model/model.dart';
+import 'package:go_router/go_router.dart';
 
-class ChatList extends StatelessWidget {
+class ChatList extends StatefulWidget {
+  const ChatList({Key? key}) : super(key: key);
+
+  @override
+  State<ChatList> createState() => _ChatsState();
+}
+
+class _ChatsState extends State<ChatList> {
   User tempUser = User(
       id: "1",
       username: "henok",
@@ -22,10 +29,10 @@ class ChatList extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
     return BlocProvider(
-      create: (context) => authBloc,
+      create: (_) => authBloc,
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (_, AuthState authState) => BlocProvider(
-          create: (context) => ChatBloc(ChatRepository(ChatDataProvider(
+          create: (_) => ChatBloc(ChatRepository(ChatDataProvider(
               authState is LoginSuccessful ? authState.userId : tempUser)))
             ..add(LoadChats()),
           child: Scaffold(
@@ -83,7 +90,11 @@ class ChatList extends StatelessWidget {
                                   itemCount: state.chats.length,
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        print("tapped");
+                                        context.push(
+                                            "/chat/${state.chats[index].id}?query=${(authState is LoginSuccessful ? authState.userId : tempUser).username == state.chats[index].owner2["username"] ? state.chats[index].owner1["username"] : state.chats[index].owner2["username"]}&user=${(authState is LoginSuccessful ? authState.userId : tempUser).access_token}&user_id=${(authState is LoginSuccessful ? authState.userId : tempUser).id}");
+                                      },
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white,

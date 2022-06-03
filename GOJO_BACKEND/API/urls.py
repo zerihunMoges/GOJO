@@ -12,7 +12,7 @@ urlpatterns = [
     path("post/<str:pk>", PostView.as_view(), name="post"),
     path("chats", ChatsView.as_view(), name="chats"),
     path("chat/<str:pk>", ChatView.as_view(), name="chat"),
-    path('chat/<str:chat_pk>/messages/<str:pk>',
+    path('chat/<str:chat_pk>/messages',
          MessagesView.as_view(), name="messages"),
     # path('message/<str:pk>'),
 ]

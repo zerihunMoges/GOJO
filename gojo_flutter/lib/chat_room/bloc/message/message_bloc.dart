@@ -9,17 +9,27 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
   MessageBloc(this.messageRepository) : super(MessageLoading()) {
     on<LoadMessages>(_onLoadMessages);
+    on<CreateMessage>(_onSendMessage);
     // on<DeleteMessage>(_onDeleteMessage);
   }
 
   void _onLoadMessages(LoadMessages event, Emitter emit) async {
     emit(MessageLoading());
-    await Future.delayed(const Duration(seconds: 3));
     try {
       final messages = await messageRepository.getMessages(event.chatId);
       emit(MessagesLoadSuccess(messages));
     } catch (err) {
       emit(MessagesLoadingFailure());
+    }
+  }
+
+  void _onSendMessage(CreateMessage event, Emitter emit) async {
+    emit(SendingMessage());
+    try {
+      await messageRepository.createMessage(event.chatId, event.message);
+      emit(MessageSentSuccessful());
+    } catch (err) {
+      emit(MessageSendingFailure());
     }
   }
 

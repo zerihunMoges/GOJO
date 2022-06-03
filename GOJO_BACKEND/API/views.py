@@ -218,22 +218,23 @@ class ChatView(APIView):
 
 class MessagesView(APIView):
     # permission_classes = [IsAuthenticated]
-
-    def get(self, request, pk):
+    def get(self, request, chat_pk):
         try:
-            chat = Chat.objects.get(id=pk)
+            chat = Chat.objects.get(id=chat_pk)
             if chat.owner1.id != request.user.id and chat.owner2.id != request.user.id:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            messages = Message.objects.filter(chat=chat)
+            messages = Text.objects.filter(chat=chat)
             serialized = MessageSerializer(messages, many=True)
             return Response(serialized.data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def post(self, request, pk):
+    def post(self, request, chat_pk):
+        print("the request is made")
         data = request.data
+        print(f"the data is {data}")
         try:
-            chat = Chat.objects.get(id=pk)
+            chat = Chat.objects.get(id=chat_pk)
             if chat.owner1.id != request.user.id and chat.owner2.id != request.user.id:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             serialized = MessageSerializer(data=data)
