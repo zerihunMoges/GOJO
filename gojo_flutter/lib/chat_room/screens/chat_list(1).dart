@@ -91,7 +91,6 @@ class _ChatsState extends State<ChatList> {
                                   itemBuilder: (context, index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        print("tapped");
                                         context.push(
                                             "/chat/${state.chats[index].id}?query=${(authState is LoginSuccessful ? authState.userId : tempUser).username == state.chats[index].owner2["username"] ? state.chats[index].owner1["username"] : state.chats[index].owner2["username"]}&user=${(authState is LoginSuccessful ? authState.userId : tempUser).access_token}&user_id=${(authState is LoginSuccessful ? authState.userId : tempUser).id}");
                                       },

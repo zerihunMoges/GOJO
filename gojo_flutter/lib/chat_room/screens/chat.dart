@@ -97,17 +97,17 @@ class ChatDetail extends StatelessWidget {
                             ),
                           ),
                           itemBuilder: (context, Message message) => Align(
-                            alignment: name != message.owner["username"]
+                            alignment: authState.userId.id == message.owner
                                 ? Alignment.centerRight
                                 : Alignment.centerLeft,
                             child: Bubble(
                               nipWidth: 9,
                               nipHeight: 6,
                               margin: const BubbleEdges.only(top: 5),
-                              nip: (name == message.owner["username"]
+                              nip: (authState.userId.id != message.owner
                                   ? BubbleNip.leftBottom
                                   : BubbleNip.rightBottom),
-                              color: (name == message.owner["username"]
+                              color: (authState.userId.id != message.owner
                                   ? Colors.white
                                   : Color.fromARGB(122, 3, 48, 88)),
                               child: Padding(
@@ -211,10 +211,7 @@ class ChatDetail extends StatelessWidget {
                                       this.chatId,
                                       Message(
                                         text: messageCtrl.text,
-                                        owner: <String, dynamic>{
-                                          "id": state.userId.id,
-                                          "username": state.userId.username
-                                        },
+                                        owner: state.userId.id!,
                                         chat: this.chatId,
                                         time: DateTime.now(),
                                       ),

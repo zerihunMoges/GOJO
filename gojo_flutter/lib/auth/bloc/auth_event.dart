@@ -7,5 +7,17 @@ class Login extends AuthEvent {
   Login({required this.email, required this.pass});
 }
 
+class Signup extends AuthEvent {
+  late String name;
+  late String last_name;
+  late String email;
+  late String username;
+  late String password;
 
-class Signup extends AuthEvent{}
+  Signup(
+      {required this.username,
+      required this.name,
+      required this.last_name,
+      required this.email,
+      required this.password});
+}

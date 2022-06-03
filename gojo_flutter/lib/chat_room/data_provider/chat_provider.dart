@@ -39,10 +39,10 @@ class ChatDataProvider {
 
     if (response.statusCode == 200) {
       final chats = jsonDecode(response.body) as List;
-      print(chats);
-      print(Chat.fromJson(chats[0]));
-      final actual = chats.map((chat) => Chat.fromJson(chat)).toList();
-      print("the actual is $actual");
+      // print(chats);
+      // print(Chat.fromJson(chats[0]));
+      // final actual = chats.map((chat) => Chat.fromJson(chat)).toList();
+      // print("the actual is $actual");
 
       return chats.map((chat) => Chat.fromJson(chat)).toList();
     } else {

@@ -25,10 +25,10 @@ class Chat(models.Model):
 
 class Text(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="user")
+        User, on_delete=models.CASCADE)
     chat = models.ForeignKey(
-        Chat, on_delete=models.CASCADE, related_name="chat")
-    text = models.CharField(max_length=1000000)
+        Chat, on_delete=models.CASCADE)
+    text = models.TextField()
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:

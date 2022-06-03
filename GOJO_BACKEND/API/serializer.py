@@ -1,3 +1,4 @@
+from curses.textpad import Textbox
 from .models import *
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
@@ -49,8 +50,12 @@ class ChatSerializer(ModelSerializer):
 
 
 class MessageSerializer(ModelSerializer):
-    user = NormalUserSerializer()
-
     class Meta:
         model = Text
         fields = '__all__'
+
+
+class TextSerializer(ModelSerializer):
+    class Meta:
+        model = Text
+        fields = "__all__"

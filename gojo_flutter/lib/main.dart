@@ -9,6 +9,7 @@ import 'package:gojo_flutter/pages/admin/Screens/admin.dart';
 import 'package:gojo_flutter/pages/search.dart';
 import './chat_room/chat_room.dart';
 import './chat_room/chat_room.dart';
+import 'auth/screen/signup.dart';
 
 void main() {
   runApp(GOJO());
@@ -31,6 +32,17 @@ class GOJO extends StatelessWidget {
       GoRoute(
         path: "/",
         builder: (context, state) => LoginPage(),
+      ),
+      GoRoute(
+        path: "/signup",
+        builder: (context, state) => BlocProvider(
+          create: (context) => AuthBloc(
+            AuthenticationRepo(
+              AuthenticationRemote(),
+            ),
+          ),
+          child: SignUp(),
+        ),
       ),
       GoRoute(
         path: "/admin",

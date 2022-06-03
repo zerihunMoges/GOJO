@@ -1,5 +1,7 @@
 
+from django.http import JsonResponse
 from django.shortcuts import render
+import json
 from .models import *
 from .serializer import *
 from rest_framework.response import Response
@@ -77,11 +79,17 @@ class ListUsers(APIView):
 
 class RegisterView(APIView):
     def post(self, request):
-        serialized = UserSerializer(data=request.data)
+        new_data = {
+            "username": request.data["username"],
+            "password": request.data["password"],
+            "first_name": request.data["first_name"],
+            "last_name": request.data["last_name"],
+            "email": request.data["email"]
+        }
+        serialized = UserSerializer(data=new_data)
         if serialized.is_valid(raise_exception=True):
             serialized.save()
             return Response(serialized.data, status=status.HTTP_201_CREATED)
-
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -174,25 +182,24 @@ class ChatsView(APIView):
     # permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print("got in and the user is ", request.user)
-
         try:
             user = User.objects.get(id=request.user.id)
-            print(f"user is {user}")
             chats = Chat.objects.filter(Q(owner1=user) | Q(owner2=user))
             print(chats)
             serialized = ChatSerializer(chats, many=True)
-            print(f"serialized is {serialized.data}")
             return Response(serialized.data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def post(self, request, format=None):
+    def post(self, request):
+        print(request.data)
         data = request.data
-        serialized = ChatSerializer(data=data)
+        serialized = ChatSerializer(data=request.data)
+        print(serialized.data)
         if serialized.is_valid():
             serialized.save()
             return Response(serialized.data, status=status.HTTP_201_CREATED)
+
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -230,23 +237,31 @@ class MessagesView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request, chat_pk):
-        print("the request is made")
-        data = request.data
-        print(f"the data is {data}")
-        try:
-            chat = Chat.objects.get(id=chat_pk)
-            if chat.owner1.id != request.user.id and chat.owner2.id != request.user.id:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            serialized = MessageSerializer(data=data)
-            if serialized.is_valid():
-                serialized.save()
-                chat.last_message = serialized.text
-                chat.save()
-                return Response(serialized.data, status=status.HTTP_201_CREATED)
-        except:
+        chat = Chat.objects.get(id=chat_pk)
+        if chat.owner1.id != request.user.id and chat.owner2.id != request.user.id:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        serialized = TextSerializer(data=request.data)
+        if serialized.is_valid():
+            serialized.save()
+            print("serailized dataa is ", serialized.data)
+            chat.last_message = serialized.data["text"]
+            chat.save()
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# class MessagesPostView(APIView):
+
+#     def post(self, request):
+#         print("the request is made")
+#         serialized = TextSerializer(data=request.data)
+#         print()
+#         if serialized.is_valid():
+#             print("actually got in eko")
+#             serialized.save()
+#             return Response(serialized.data, status=status.HTTP_201_CREATED)
+#         print("shit is invalid")
+#         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 # class MessageView(APIView):
 #     permission_classes = [IsAuthenticated]
 
@@ -265,7 +280,7 @@ class MessagesView(APIView):
 #             serialized = MessageSerializer(instance=message, data=request.data)
 #             if serialized.is_valid():
 #                 serialized.save()
-#                 return Response(serialized.data, status=status.HTTP_200_OK)
+#                 return Response(serialized.data, s 80518tatus=status.HTTP_200_OK)
 #             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 #         except:
 #             return Response(status=status.HTTP_400_BAD_REQUEST)

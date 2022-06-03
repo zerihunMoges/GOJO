@@ -14,5 +14,6 @@ urlpatterns = [
     path("chat/<str:pk>", ChatView.as_view(), name="chat"),
     path('chat/<str:chat_pk>/messages',
          MessagesView.as_view(), name="messages"),
+    # path("messages", MessagesPostView.as_view(), name="post"),
     # path('message/<str:pk>'),
 ]

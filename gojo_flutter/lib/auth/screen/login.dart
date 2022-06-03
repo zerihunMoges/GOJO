@@ -31,18 +31,18 @@ class _LoginState extends State<LoginPage> {
 
     return Scaffold(
       body: Container(
-        child: Column(
+        child: ListView(
           children: [
-            Expanded(
-              flex: 1,
+            Container(
+              height: 400,
               child: Image(
                 image: AssetImage('assets/melancholy.png'),
                 fit: BoxFit.cover,
                 width: double.infinity,
+                height: 400,
               ),
             ),
-            Expanded(
-              flex: 3,
+            Container(
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -260,7 +260,9 @@ class _LoginState extends State<LoginPage> {
                             style: TextButton.styleFrom(
                               textStyle: const TextStyle(fontSize: 12),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              context.go("/signup");
+                            },
                             child: const Text('sign up'),
                           ),
                         ],

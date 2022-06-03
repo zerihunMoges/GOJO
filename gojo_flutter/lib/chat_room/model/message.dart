@@ -10,7 +10,7 @@ class Message extends Equatable {
       required this.chat,
       required this.time});
   final String text;
-  final Map<String, dynamic> owner;
+  final String owner;
   final String chat;
   final DateTime time;
 
@@ -23,7 +23,7 @@ class Message extends Equatable {
 
     return Message(
       text: json['text'].toString(),
-      owner: json['user'],
+      owner: json['user'].toString(),
       chat: json['chat'].toString(),
       time: now,
     );

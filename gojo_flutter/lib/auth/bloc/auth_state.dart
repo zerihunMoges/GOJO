@@ -15,3 +15,9 @@ class LoginFailed extends AuthState {
   String? error;
   LoginFailed(this.error);
 }
+
+class SigningIn extends AuthState {}
+
+class SigninSuccessful extends AuthState {}
+
+class SigninFailed extends AuthState {}
