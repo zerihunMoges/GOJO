@@ -7,6 +7,10 @@ class PostState extends Equatable {
   @override
   
   List<Object> get props => [];
+
+  List<Post> get posts => [];
+
+
   
 }
 
@@ -19,6 +23,13 @@ class PostLoadSuccess extends PostState{
   const PostLoadSuccess([this.posts = const []]);
 
   @override
+  List<Object> get props => [posts];
+}
+class PostFilterSuccess extends PostState{
+  final List<Post> posts;
+
+  const PostFilterSuccess([this.posts = const []]);
+   @override
   List<Object> get props => [posts];
 }
 

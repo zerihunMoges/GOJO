@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gojo_flutter/post/bloc/post_event.dart';
 import 'package:gojo_flutter/post/bloc/post_state.dart';
+import 'package:gojo_flutter/post/models/post.dart';
 import 'package:gojo_flutter/post/repository/post_repository.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
@@ -11,16 +12,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<PostCreate>(_onPostCreate);
     on<PostDelete>(_onPostDelete);
     on<PostUpdate>(_onPostUpdate);
+    on<PostFilter>(_search);
   }
-  
+
   void _onPostLoad(PostLoad event, Emitter emit) async {
     emit(PostLoading());
     try {
-     
       final posts = await postRepository.getPosts();
       emit(PostLoadSuccess(posts));
     } catch (_) {
-     
       emit(PostOperationFailure());
     }
   }
@@ -56,5 +56,21 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     } catch (_) {
       emit(PostOperationFailure());
     }
+  }
+
+  void _search(PostFilter event, Emitter emit) {
+    List<Post> searched = event.posts
+        .where((post) => post.title
+                .toString()
+                .toLowerCase()
+                .contains(event.query.toLowerCase())
+            //     ||
+            // user["location"]
+            //     .toString()
+            //     .toLowerCase()
+            //     .contains(event.query.toLowerCase())
+            )
+        .toList();
+    emit(PostFilterSuccess(searched));
   }
 }

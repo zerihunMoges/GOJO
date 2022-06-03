@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gojo_flutter/post/models/post.dart';
 
 class PostEvent extends Equatable {
@@ -37,6 +38,16 @@ class PostUpdate extends PostEvent {
 
   @override
   String toString() => 'Post Updated {post: $post}';
+}
+
+class PostFilter extends PostEvent {
+  final List priceRange;
+  final List area;
+  final String type;
+  final List<Post> posts;
+  final String query;
+
+  PostFilter(this.priceRange, this.area, this.type, this.posts, this.query);
 }
 
 class PostDelete extends PostEvent {

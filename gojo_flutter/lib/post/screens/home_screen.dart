@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gojo_flutter/post/bloc/bloc.dart';
 import 'package:gojo_flutter/post/dataprovider/post_data.dart';
@@ -42,13 +43,83 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileSetting(),
     PostDetail(),
   ];
+  bool _isFilteron = false;
+  RangeValues _currentRangeValues = const RangeValues(1000, 1000000);
+  RangeValues _currentareaRangeValues = const RangeValues(100, 8000);
+  PostRepository postRepository =
+      PostRepository(dataProvider: PostDataProvider());
+  List<Post>? posts;
   @override
   Widget build(BuildContext context) {
-    PostRepository postRepository =
-        PostRepository(dataProvider: PostDataProvider());
-
-    final postBloc = PostBloc(postRepository);
+    final PostBloc postBloc = PostBloc(postRepository);
     postBloc.add(const PostLoad());
+
+    final searchCtrl = TextEditingController();
+    Widget filter = Container(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Price Range",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+              )),
+          RangeSlider(
+            values: _currentRangeValues,
+            max: 1000000,
+            divisions: 1000,
+            labels: RangeLabels(
+              _currentRangeValues.start.round().toString(),
+              _currentRangeValues.end.round().toString(),
+            ),
+            onChanged: (RangeValues values) {
+              setState(() {
+                _currentRangeValues = values;
+              });
+            },
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text("Area Range",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+              )),
+          RangeSlider(
+            values: _currentareaRangeValues,
+            max: 8000,
+            divisions: 100,
+            labels: RangeLabels(
+              _currentareaRangeValues.start.round().toString(),
+              _currentareaRangeValues.end.round().toString(),
+            ),
+            onChanged: (RangeValues values) {
+              setState(() {
+                _currentareaRangeValues = values;
+              });
+            },
+          ),
+          TextButton(
+              style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  backgroundColor: Color.fromARGB(255, 88, 155, 241),
+                  onSurface: Colors.grey,
+                  padding: EdgeInsets.all(20)),
+              onPressed: () {
+                setState(() {
+                  _isFilteron = !_isFilteron;
+                });
+              },
+              child: Text("Apply",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ))),
+        ],
+      ),
+    );
+
     return BlocProvider(
       create: (_) => postBloc,
       child: Scaffold(
@@ -58,7 +129,52 @@ class _HomeScreenState extends State<HomeScreen> {
             physics:
                 BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [
-              SearchBar(),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: CupertinoSearchTextField(
+                        controller: searchCtrl,
+                        prefixInsets: EdgeInsets.all(10),
+                        borderRadius: BorderRadius.circular(30),
+                      )),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(221, 224, 223, 223),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: IconButton(
+                              iconSize: 30,
+                              onPressed: () {
+                                postBloc.add(PostFilter([
+                                  _currentRangeValues.start,
+                                  _currentRangeValues.end
+                                ], [
+                                  _currentareaRangeValues.start,
+                                  _currentareaRangeValues.end
+                                ], "house", posts!, searchCtrl.text));
+
+                                setState(() {
+                                  _isFilteron = !_isFilteron;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.filter_list_rounded,
+                              )),
+                        ),
+                      )
+                    ],
+                  )),
+              _isFilteron == true
+                  ? filter
+                  : Container(
+                      height: 0,
+                    ),
               Container(
                 height: 140,
                 child: ListView(
@@ -218,11 +334,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: BlocBuilder<PostBloc, PostState>(
                   builder: (_, state) {
                     if (state is PostOperationFailure) {
+                      
                       return Center(
                         child: Text("Failed"),
                       );
                     }
-                    if (state is PostLoadSuccess) {
+                    if(state is PostLoadSuccess){
+                      this.posts = state.posts;
+                    }
+
+                    if (state is PostLoadSuccess || state is PostFilterSuccess) {
+                      
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.only(left: 10),
@@ -458,7 +580,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Icon(Icons.replay_circle_filled_outlined),
                       );
                     }
-                    if (state is PostLoadSuccess) {
+                    if (state is PostLoadSuccess || state is PostFilterSuccess) {
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.only(left: 10),
@@ -715,67 +837,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-}
-
-class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
-
-  @override
-  State<SearchBar> createState() => _SearchBarState();
-}
-
-class _SearchBarState extends State<SearchBar> {
-  RangeValues _currentRangeValues = const RangeValues(40, 80);
-  @override
-  Widget build(BuildContext context) {
-    Widget filter = Container(
-      child: Column(
-        children: [
-          RangeSlider(
-      values: _currentRangeValues,
-      max: 100,
-      divisions: 5,
-      labels: RangeLabels(
-        _currentRangeValues.start.round().toString(),
-        _currentRangeValues.end.round().toString(),
-      ),
-      onChanged: (RangeValues values) {
-        setState(() {
-          _currentRangeValues = values;
-        });
-      },
-      );
-        ],
-      ),
-    );
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(20),
-        child: Row(
-          children: [
-            Expanded(
-                child: CupertinoSearchTextField(
-              prefixInsets: EdgeInsets.all(10),
-              borderRadius: BorderRadius.circular(30),
-            )),
-            SizedBox(
-              width: 30,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: Color.fromARGB(221, 224, 223, 223),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Center(
-                child: IconButton(
-                    iconSize: 30,
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.filter_list_rounded,
-                    )),
-              ),
-            )
-          ],
-        ));
   }
 }
