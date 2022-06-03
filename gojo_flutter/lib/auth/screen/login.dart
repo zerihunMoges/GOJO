@@ -31,7 +31,7 @@ class _loginState extends State<login> {
 
     return Scaffold(
       body: Container(
-        child: ListView(
+        child: Column(
           children: [
             Expanded(
               flex: 1,
