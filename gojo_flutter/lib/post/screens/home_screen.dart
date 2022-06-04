@@ -614,8 +614,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: Opacity(
                                               opacity: 0.9,
                                               child: Image.network(
-                                                  "http://127.0.0.1:8000/" +
-                                                      post.photo)),
+                                                  "http://127.0.0.1:8000${post.photo}")),
                                         ),
                                       ),
                                       Positioned(
@@ -837,6 +836,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 if (_idx == 4) {
                   context.push("/settings", extra: state.userId);
+                }
+                if (_idx == 3) {
+                  context.push("/chats", extra: state.userId);
                 }
               },
             );

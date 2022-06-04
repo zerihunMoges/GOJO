@@ -9,7 +9,7 @@ urlpatterns = [
     path("login", LoginView.as_view(), name="login"),
     # path('rest-auth/', include('rest_auth.urls')),
     path("posts", PostsView.as_view(), name="posts"),
-    path("post/<str:pk>", PostView.as_view(), name="post"),
+    path("posts/<str:pk>", PostView.as_view(), name="post"),
     path("chats", ChatsView.as_view(), name="chats"),
     path("chat/<str:pk>", ChatView.as_view(), name="chat"),
     path('chat/<str:chat_pk>/messages',

@@ -70,8 +70,8 @@ class _AdminPostState extends State<AdminPost> {
                           horizontal: 10.0,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            Text("shit"),
                             Row(
                               children: [
                                 Container(

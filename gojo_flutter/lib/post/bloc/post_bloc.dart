@@ -48,13 +48,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   void _onPostDelete(PostDelete event, Emitter emit) async {
-    emit(PostCreating());
+    emit(PostDeleting());
     try {
       await postRepository.deletePost(event.post.id);
       final posts = await postRepository.getPosts();
-      emit(PostLoadSuccess(posts));
+      emit(PostDeleteSuccess());
     } catch (_) {
-      emit(PostOperationFailure());
+      emit(PostDeleteFailure());
     }
   }
 

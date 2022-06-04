@@ -147,6 +147,53 @@ class ProfileSetting extends StatelessWidget {
               height: 10,
             ),
             GestureDetector(
+              onTap: () {
+                context.push("/admin", extra: user);
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Color.fromARGB(255, 233, 235, 252),
+                    child: Icon(
+                      Icons.admin_panel_settings,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    "Admin",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Expanded(child: SizedBox()),
+                  Icon(Icons.arrow_forward_ios),
+                  SizedBox(
+                    width: 20,
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            const Divider(
+              thickness: 0.05,
+              indent: 20,
+              endIndent: 20,
+              color: Colors.black,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
               onTap: () {},
               child: Row(
                 children: [

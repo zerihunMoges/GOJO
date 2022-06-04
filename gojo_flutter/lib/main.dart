@@ -5,7 +5,6 @@ import 'package:gojo_flutter/auth/bloc/auth_bloc.dart';
 import 'package:gojo_flutter/auth/index.dart';
 import 'package:gojo_flutter/auth/repository/authentication_repository.dart';
 import 'package:gojo_flutter/auth/screen/profilesetting.dart';
-import 'package:gojo_flutter/pages/admin/Screens/admin.dart';
 // import 'package:gojo_flutter/pages/chats.dart';
 import 'package:gojo_flutter/pages/search.dart';
 import './auth/screen/profile.dart';
@@ -22,18 +21,56 @@ class GOJO extends StatelessWidget {
   GOJO({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) =>
-            AuthBloc(AuthenticationRepo(AuthenticationRemote())),
-        child: MaterialApp.router(
-            routeInformationParser: _router.routeInformationParser,
-            routerDelegate: _router.routerDelegate),
-      );
+  Widget build(BuildContext context) {
+    final authBloc = AuthBloc(AuthenticationRepo(AuthenticationRemote()));
+    return BlocProvider<AuthBloc>(
+      create: (context) => authBloc,
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          if (state is LoginSuccessful) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<AuthBloc>(
+                  create: (context) => authBloc,
+                ),
+                BlocProvider<PostBloc>(
+                  create: (context) => PostBloc(
+                      PostRepository(dataProvider: PostDataProvider())),
+                ),
+                BlocProvider<MessageBloc>(
+                  create: (context) => MessageBloc(MessageRepository(
+                      MessageDataProvider(
+                          state.userId.access_token.toString()))),
+                ),
+              ],
+              child: MaterialApp.router(
+                  routeInformationParser: _router.routeInformationParser,
+                  routerDelegate: _router.routerDelegate),
+            );
+          }
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<AuthBloc>(
+                create: (context) => authBloc,
+              ),
+              BlocProvider<PostBloc>(
+                create: (context) =>
+                    PostBloc(PostRepository(dataProvider: PostDataProvider())),
+              ),
+            ],
+            child: MaterialApp.router(
+                routeInformationParser: _router.routeInformationParser,
+                routerDelegate: _router.routerDelegate),
+          );
+        },
+      ),
+    );
+  }
 
   final _router = GoRouter(
     routes: [
       GoRoute(
-        path: "/",
+        path: "/login",
         builder: (context, state) => LoginPage(),
       ),
       GoRoute(
@@ -54,7 +91,7 @@ class GOJO extends StatelessWidget {
       ),
       GoRoute(
         path: "/signup",
-        builder: (context, state) => BlocProvider(
+        builder: (context, state) => BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(
             AuthenticationRepo(
               AuthenticationRemote(),
@@ -64,7 +101,7 @@ class GOJO extends StatelessWidget {
         ),
       ),
       GoRoute(
-        path: "/admin",
+        path: "/",
         builder: (context, state) => AdminPage(),
       ),
       GoRoute(
@@ -77,7 +114,7 @@ class GOJO extends StatelessWidget {
       ),
       GoRoute(
         path: "/chat/:id",
-        builder: (context, state) => BlocProvider(
+        builder: (context, state) => BlocProvider<MessageBloc>(
           create: (context) => MessageBloc(MessageRepository(
               MessageDataProvider(state.queryParams['user']!)))
             ..add(LoadMessages(state.params["id"]!)),

@@ -37,7 +37,6 @@ class _ChatsState extends State<ChatList> {
             ..add(LoadChats()),
           child: Scaffold(
               appBar: AppBar(
-                toolbarHeight: 120,
                 backgroundColor: Colors.white,
                 shadowColor: Colors.white,
                 title: Container(
@@ -55,13 +54,6 @@ class _ChatsState extends State<ChatList> {
                           fontWeight: FontWeight.bold,
                           fontSize: 26,
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CupertinoSearchTextField(
-                        borderRadius: BorderRadius.circular(24),
-                        onChanged: (value) {},
                       ),
                     ],
                   ),
