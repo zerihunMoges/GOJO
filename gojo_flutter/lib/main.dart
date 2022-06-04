@@ -4,12 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:gojo_flutter/auth/bloc/auth_bloc.dart';
 import 'package:gojo_flutter/auth/index.dart';
 import 'package:gojo_flutter/auth/repository/authentication_repository.dart';
+import 'package:gojo_flutter/auth/screen/profilesetting.dart';
 import 'package:gojo_flutter/pages/admin/Screens/admin.dart';
 // import 'package:gojo_flutter/pages/chats.dart';
 import 'package:gojo_flutter/pages/search.dart';
+import './auth/screen/profile.dart';
 import './chat_room/chat_room.dart';
 import './chat_room/chat_room.dart';
 import 'auth/screen/signup.dart';
+import './post/post.dart';
 
 void main() {
   runApp(GOJO());
@@ -32,6 +35,22 @@ class GOJO extends StatelessWidget {
       GoRoute(
         path: "/",
         builder: (context, state) => LoginPage(),
+      ),
+      GoRoute(
+        path: "/home",
+        builder: (context, state) => HomeScreen(),
+      ),
+      GoRoute(
+        path: "/post",
+        builder: (context, state) => PostDetail(state.extra! as Post),
+      ),
+      GoRoute(
+        path: "/profile",
+        builder: (context, state) => Profile(state.extra! as User),
+      ),
+      GoRoute(
+        path: "/settings",
+        builder: (context, state) => ProfileSetting(state.extra! as User),
       ),
       GoRoute(
         path: "/signup",

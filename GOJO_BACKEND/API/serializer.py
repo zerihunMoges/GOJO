@@ -28,16 +28,18 @@ class NormalUserSerializer(ModelSerializer):
         fields = ["id", "username"]
 
 
-class PostSerializer(ModelSerializer):
-    class Meta:
-        model = Post
-        fields = "__all__"
-
-
 class RoomSerializer(ModelSerializer):
     class Meta:
         model = Room
         fields = '__all__'
+
+
+class PostSerializer(ModelSerializer):
+    rooms = RoomSerializer(many=True)
+
+    class Meta:
+        model = Post
+        fields = "__all__"
 
 
 class ChatSerializer(ModelSerializer):

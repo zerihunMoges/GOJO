@@ -170,7 +170,7 @@ class _LoginState extends State<LoginPage> {
                             //   MaterialPageRoute(builder: (_) => Create_post()),
                             // );
 
-                            context.go("/chats");
+                            context.go("/home");
                             // u should pass the state value id to the other page
                           },
                           builder: (_, AuthState state) {
