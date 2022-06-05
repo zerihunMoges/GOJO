@@ -13,15 +13,18 @@ import 'package:gojo_flutter/post/repository/post_repository.dart';
 import 'package:gojo_flutter/user/models/user.dart';
 import 'package:go_router/go_router.dart';
 
-class CreatePost extends StatefulWidget {
-  const CreatePost({Key? key}) : super(key: key);
+class EditPost extends StatefulWidget {
+  EditPost(@required this.post);
+  Post post;
 
   @override
-  State<CreatePost> createState() => _CreatePostState();
+  State<EditPost> createState() => _EditPostState(post);
 }
 
-class _CreatePostState extends State<CreatePost> {
+class _EditPostState extends State<EditPost> {
   final _formKey = GlobalKey<FormState>();
+  Post post;
+  _EditPostState(@required this.post);
 
   PostBloc postBloc =
       PostBloc(PostRepository(dataProvider: PostDataProvider()));
@@ -30,14 +33,19 @@ class _CreatePostState extends State<CreatePost> {
   List<Uint8List> Kitchen = [];
   List<Uint8List> Bathroom = [];
 
-  var titleCtrl = TextEditingController();
-  var locationCtrl = TextEditingController();
-  var priceCtrl = TextEditingController();
-  var frequencyCtrl = TextEditingController();
-  var areaCtrl = TextEditingController();
-  var bedcountCtrl = TextEditingController();
-  var bathcountCtrl = TextEditingController();
-  var kitchencountCtrl = TextEditingController();
+  late TextEditingController titleCtrl =
+      TextEditingController(text: post.title.toString());
+  late TextEditingController locationCtrl =
+      TextEditingController(text: post.location.toString());
+  late TextEditingController priceCtrl =
+      TextEditingController(text: post.price.toString());
+  late TextEditingController frequencyCtrl =
+      TextEditingController(text: post.payment_frequency.toString());
+  late TextEditingController areaCtrl =
+      TextEditingController(text: post.area.toString());
+  late TextEditingController bedcountCtrl = TextEditingController();
+  late TextEditingController bathcountCtrl = TextEditingController();
+  late TextEditingController kitchencountCtrl = TextEditingController();
 
   PlatformFile? pickedFile;
   bool image_view = false;
@@ -80,7 +88,6 @@ class _CreatePostState extends State<CreatePost> {
       "Kitchen": [kitchencountCtrl, Kitchen]
     };
 
-    
     return BlocProvider(
       create: (_) => postBloc,
       child: Scaffold(
@@ -90,26 +97,20 @@ class _CreatePostState extends State<CreatePost> {
           key: _formKey,
           child: ListView(
             children: [
-              image_view
-                  ? Stack(children: [
-                      Image.memory(
-                        pickedFile!.bytes!,
-                        width: double.infinity,
-                        height: 250,
-                        fit: BoxFit.cover,
-                      ),
-                      Center(
-                          child: IconButton(
-                        onPressed: selectFile,
-                        icon: Icon(Icons.remove),
-                      ))
-                    ])
-                  : IconButton(
-                      splashRadius: 100,
-                      onPressed: selectFile,
-                      icon: Icon(Icons.add_a_photo),
-                      iconSize: 150,
-                    ),
+              Stack(children: [
+                Image.memory(
+                  pickedFile != null ? pickedFile!.bytes! : post.photo,
+                  width: double.infinity,
+                  height: 250,
+                  fit: BoxFit.cover,
+                ),
+                Center(
+                    child: IconButton(
+                  onPressed: selectFile,
+                  iconSize: 30,
+                  icon: Icon(Icons.change_circle),
+                ))
+              ]),
               SizedBox(
                 height: 15,
               ),
@@ -433,7 +434,7 @@ class _CreatePostState extends State<CreatePost> {
                   ],
                 ),
               ),
-                SizedBox(height: 10),
+              SizedBox(height: 10),
               BlocConsumer<PostBloc, PostState>(
                 listenWhen: (_, current) {
                   return current is PostCreateSuccess;
@@ -445,7 +446,7 @@ class _CreatePostState extends State<CreatePost> {
                 //       current is LogingIn;
                 // },
                 builder: (_, PostState state) {
-                  Widget buttonChild = Text("Post");
+                  Widget buttonChild = Text("Update");
                   if (state is PostCreating) {
                     buttonChild = const SizedBox(
                       width: 20,
@@ -464,51 +465,102 @@ class _CreatePostState extends State<CreatePost> {
                     buttonChild = const Text("Retry");
                   }
 
+                  if (state is PostDeleteSuccess) {
+                    context.pop();
+                  }
+
                   return Center(
                     child: SizedBox(
                       width: 200,
                       height: 50,
-                      child: TextButton(
-                        autofocus: true,
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            List<Room> rooms = [];
-                            roomsdata.forEach((key, value) {
-                              if (int.parse(roomsdata[key]![0].text) > 0) {
-                                rooms.add(Room(
-                                  
-                                    photos: roomsdata[key]![1],
-                                    type: key,
-                                    count: roomsdata[key]![0].text));
-                              }
-                            });
+                      child: Row(
+                        children: [
+                          TextButton(
+                            autofocus: true,
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                List<Room> rooms = [];
+                                roomsdata.forEach((key, value) {
+                                  if (int.parse(roomsdata[key]![0].text) > 0) {
+                                    rooms.add(Room(
+                                        photos: roomsdata[key]![1],
+                                        type: key,
+                                        count: roomsdata[key]![0].text));
+                                  }
+                                });
 
-                            postBloc
-                              .add(PostCreate(Post(
-                                  id: '1',
-                                  title: titleCtrl.text,
-                                  user: "5",
-                                  photo: pickedFile!.bytes!,
-                                  price: priceCtrl.text,
-                                  area: areaCtrl.text,
-                                  rooms: rooms,
-                                  payment_frequency:
-                                    frequencyCtrl.text,
-                                  location: locationCtrl.text)));
-                          }
-                        },
-                        style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: Color.fromARGB(255, 0, 60, 150)
-                                .withOpacity(0.7),
-                            elevation: 3,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            textStyle: const TextStyle(
-                              fontSize: 20,
-                            )),
-                        child: buttonChild,
+                                postBloc.add(PostUpdate(Post(
+                                    id: post.id,
+                                    title: titleCtrl.text,
+                                    type: dropdownvalue,
+                                    user: post.user,
+                                    photo: pickedFile != null
+                                        ? pickedFile!.bytes!
+                                        : post.photo,
+                                    price: priceCtrl.text,
+                                    area: areaCtrl.text,
+                                    rooms: rooms,
+                                    payment_frequency: frequencyCtrl.text,
+                                    location: locationCtrl.text)));
+                              }
+                            },
+                            style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Color.fromARGB(255, 0, 60, 150)
+                                    .withOpacity(0.7),
+                                elevation: 3,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                )),
+                            child: buttonChild,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          TextButton(
+                            autofocus: true,
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                List<Room> rooms = [];
+                                roomsdata.forEach((key, value) {
+                                  if (int.parse(roomsdata[key]![0].text) > 0) {
+                                    rooms.add(Room(
+                                        photos: roomsdata[key]![1],
+                                        type: key,
+                                        count: roomsdata[key]![0].text));
+                                  }
+                                });
+
+                                postBloc.add(PostDelete(Post(
+                                    id: post.id,
+                                    title: titleCtrl.text,
+                                    type: dropdownvalue,
+                                    user: post.user,
+                                    photo: pickedFile!.bytes!,
+                                    price: priceCtrl.text,
+                                    area: areaCtrl.text,
+                                    rooms: rooms,
+                                    payment_frequency: frequencyCtrl.text,
+                                    location: locationCtrl.text)));
+                              }
+                            },
+                            style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Color.fromARGB(255, 0, 60, 150)
+                                    .withOpacity(0.7),
+                                elevation: 3,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                )),
+                            child: Text("Delete"),
+                          ),
+                        ],
                       ),
                     ),
                   );

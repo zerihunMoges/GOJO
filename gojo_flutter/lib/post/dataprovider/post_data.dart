@@ -37,8 +37,6 @@ class PostDataProvider {
 
     if (response.statusCode == 201) {
       try {
-    
-
         return Post.fromJson(jsonDecode(response.body));
       } catch (e) {
         print("the error");
@@ -52,33 +50,28 @@ class PostDataProvider {
   }
 
   Future<List<Post>> getPosts() async {
-   
     final response = await client.get(Uri.parse(baseUrl));
 
-      if (response.statusCode == 200) {
-        List<Post> posts = [];
-        List<dynamic> postse = jsonDecode(response.body);
-        for (var json in postse) {
-          try{posts.add(Post.fromJson(json));}
-          catch(e){
-
-          }
-          
-        }
-
-        return posts;
-      } 
-      
-      else {
-        throw Exception("failed to load Posts");
+    if (response.statusCode == 200) {
+      List<Post> posts = [];
+      List<dynamic> postse = jsonDecode(response.body);
+      for (var json in postse) {
+        try {
+          posts.add(Post.fromJson(json));
+        } catch (e) {}
       }
+
+      return posts;
+    } else {
+      throw Exception("failed to load Posts");
+    }
   }
+
   Future<Post> getPost(String id) async {
     final response = await client.get(Uri.parse("$baseUrl/$id"));
 
     if (response.statusCode == 200) {
-    return Post.fromJson(jsonDecode(response.body));
-     
+      return Post.fromJson(jsonDecode(response.body));
     } else {
       throw Exception("failed to Load Post");
     }
@@ -90,17 +83,18 @@ class PostDataProvider {
     for (var room in post.rooms) {
       rooms.add(jsonEncode(<dynamic, dynamic>{
         'type': room.type,
+        'photos': room.photos,
         'count': room.count,
       }));
     }
 
-    final response = await client.put(
-      Uri.parse(baseUrl),
+    final response = await client.patch(
+      Uri.parse("$baseUrl/${post.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
-        'id': post.id,
+        
         'title': post.title,
         'user': post.user,
         'photo': post.photo,
@@ -108,11 +102,11 @@ class PostDataProvider {
         'area': post.area,
         'rooms': rooms,
         'payment_frequency': post.payment_frequency,
-        'locaton': post.location
+        'location': post.location
       }),
     );
 
-    if (response.statusCode == 204) {
+    if (response.statusCode != 200) {
       throw Exception("failed to update course");
     }
   }

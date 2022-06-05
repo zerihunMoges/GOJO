@@ -238,6 +238,54 @@ class ProfileSetting extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
+
+          
+            GestureDetector(
+              onTap: () {
+                context.push("/myPost", extra: user.id);
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Color.fromARGB(255, 233, 235, 252),
+                    child: Icon(
+                      Icons.my_library_add,
+                      size: 30,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    "My Posts",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Expanded(child: SizedBox()),
+                  Icon(Icons.arrow_forward_ios),
+                  SizedBox(
+                    width: 20,
+                  )
+                ],
+              ),
+            ),
+
+            const Divider(
+              thickness: 0.05,
+              indent: 20,
+              endIndent: 20,
+              color: Colors.black,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+
             GestureDetector(
               onTap: () {},
               child: Row(

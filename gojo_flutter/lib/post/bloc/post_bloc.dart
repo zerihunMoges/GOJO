@@ -29,7 +29,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     emit(PostCreating());
     try {
       await postRepository.createPost(event.post);
-      
+
       final posts = await postRepository.getPosts();
       emit(PostLoadSuccess(posts));
     } catch (_) {
@@ -60,18 +60,25 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   void _search(PostFilter event, Emitter emit) {
-    List<Post> searched = event.posts
-        .where((post) => post.title
-                .toString()
-                .toLowerCase()
-                .contains(event.query.toLowerCase())
-            //     ||
-            // user["location"]
-            //     .toString()
-            //     .toLowerCase()
-            //     .contains(event.query.toLowerCase())
-            )
-        .toList();
-    emit(PostFilterSuccess(searched));
+    if (event.userid != '') {
+      List<Post> searched = event.posts
+          .where((post) =>
+              post.user.toString() == event.userid.toString() )
+          .toList();
+      emit(PostFilterSuccess(searched));
+    } else {
+      List<Post> searched = event.posts
+          .where((post) =>
+              post.title
+                  .toString()
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase()) ||
+              post.location
+                  .toString()
+                  .toLowerCase()
+                  .contains(event.query.toLowerCase()))
+          .toList();
+      emit(PostFilterSuccess(searched));
+    }
   }
 }

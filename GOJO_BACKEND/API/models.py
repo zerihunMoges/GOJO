@@ -42,7 +42,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
 
     user = models.ForeignKey(User,on_delete= models.CASCADE)
-
+    type = models.CharField(max_length=200)
     photo = models.JSONField(default=[])
     location = models.TextField(null=True, blank=True)
     price = models.FloatField()

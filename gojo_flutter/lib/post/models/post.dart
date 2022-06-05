@@ -10,6 +10,7 @@ class Post extends Equatable {
     required this.id,
     required this.title,
     required this.user,
+    required this.type,
     required this.photo,
     required this.price,
     required this.area,
@@ -20,6 +21,7 @@ class Post extends Equatable {
 
   final String id;
   final String title;
+  final String type;
   final String user;
   final Uint8List photo;
   final String price;
@@ -37,6 +39,7 @@ class Post extends Equatable {
         id: json['id'].toString(),
         title: json['title'].toString(),
         user: json['user'].toString(),
+        type: json['type'].toString(),
         photo: Uint8List.fromList(List<int>.from(json['photo'])),
         price: json['price'].toString(),
         area: json['area'].toString(),

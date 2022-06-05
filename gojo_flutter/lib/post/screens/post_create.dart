@@ -80,7 +80,6 @@ class _CreatePostState extends State<CreatePost> {
       "Kitchen": [kitchencountCtrl, Kitchen]
     };
 
-    
     return BlocProvider(
       create: (_) => postBloc,
       child: Scaffold(
@@ -101,7 +100,9 @@ class _CreatePostState extends State<CreatePost> {
                       Center(
                           child: IconButton(
                         onPressed: selectFile,
-                        icon: Icon(Icons.remove),
+                        color: Colors.black87,
+                        iconSize: 30,
+                        icon: Icon(Icons.change_circle),
                       ))
                     ])
                   : IconButton(
@@ -303,9 +304,22 @@ class _CreatePostState extends State<CreatePost> {
                           itemBuilder: (BuildContext context, int index) {
                             return Row(
                               children: [
-                                GestureDetector(
-                                  child: Image.memory(Bedroom[index]),
-                                ),
+                                Stack(children: [
+                                  Image.memory(Bedroom[index]),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            Bedroom.removeAt(index);
+                                          });
+                                        },
+                                        color: Color.fromARGB(255, 15, 15, 15),
+                                        iconSize: 30,
+                                        icon: Icon(Icons.delete)),
+                                        
+                                  )
+                                ]),
                                 SizedBox(
                                   width: 5,
                                 )
@@ -361,10 +375,19 @@ class _CreatePostState extends State<CreatePost> {
                           itemBuilder: (BuildContext context, int index) {
                             return Row(
                               children: [
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Image.memory(Kitchen[index]),
-                                ),
+                                Stack(children: [
+                                  Image.memory(Kitchen[index]),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            Kitchen.removeAt(index);
+                                          });
+                                        },
+                                        icon: Icon(Icons.delete)),
+                                  )
+                                ]),
                                 SizedBox(
                                   width: 5,
                                 )
@@ -420,9 +443,19 @@ class _CreatePostState extends State<CreatePost> {
                           itemBuilder: (BuildContext context, int index) {
                             return Row(
                               children: [
-                                GestureDetector(
-                                  child: Image.memory(Bathroom[index]),
-                                ),
+                                Stack(children: [
+                                  Image.memory(Bathroom[index]),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            Bathroom.removeAt(index);
+                                          });
+                                        },
+                                        icon: Icon(Icons.delete)),
+                                  )
+                                ]),
                                 SizedBox(
                                   width: 5,
                                 )
@@ -433,7 +466,7 @@ class _CreatePostState extends State<CreatePost> {
                   ],
                 ),
               ),
-                SizedBox(height: 10),
+              SizedBox(height: 10),
               BlocConsumer<PostBloc, PostState>(
                 listenWhen: (_, current) {
                   return current is PostCreateSuccess;
@@ -476,25 +509,23 @@ class _CreatePostState extends State<CreatePost> {
                             roomsdata.forEach((key, value) {
                               if (int.parse(roomsdata[key]![0].text) > 0) {
                                 rooms.add(Room(
-                                  
                                     photos: roomsdata[key]![1],
                                     type: key,
                                     count: roomsdata[key]![0].text));
                               }
                             });
 
-                            postBloc
-                              .add(PostCreate(Post(
-                                  id: '1',
-                                  title: titleCtrl.text,
-                                  user: "5",
-                                  photo: pickedFile!.bytes!,
-                                  price: priceCtrl.text,
-                                  area: areaCtrl.text,
-                                  rooms: rooms,
-                                  payment_frequency:
-                                    frequencyCtrl.text,
-                                  location: locationCtrl.text)));
+                            postBloc.add(PostCreate(Post(
+                                id: '1',
+                                title: titleCtrl.text,
+                                user: "5",
+                                type: dropdownvalue,
+                                photo: pickedFile!.bytes!,
+                                price: priceCtrl.text,
+                                area: areaCtrl.text,
+                                rooms: rooms,
+                                payment_frequency: frequencyCtrl.text,
+                                location: locationCtrl.text)));
                           }
                         },
                         style: TextButton.styleFrom(

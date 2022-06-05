@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ], [
                   _currentareaRangeValues.start,
                   _currentareaRangeValues.end
-                ], "house", posts!, searchCtrl.text));
+                ], "house", posts!, searchCtrl.text, ''));
               },
               child: Text("Apply",
                   style: TextStyle(
@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ], [
                             _currentareaRangeValues.start,
                             _currentareaRangeValues.end
-                          ], "house", posts!, searchCtrl.text));
+                          ], "house", posts!, searchCtrl.text, ''));
                         },
                         controller: searchCtrl,
                         prefixInsets: EdgeInsets.all(10),
@@ -195,13 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.w900,
                             fontSize: 20),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text("Andrew Velle"),
-                      SizedBox(
-                        height: 5,
-                      ),
+                      
                     ]),
               ),
               Stack(children: [
@@ -240,95 +234,110 @@ class _HomeScreenState extends State<HomeScreen> {
                   physics: BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
                   children: [
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.only(
-                          left: 30, top: 20, right: 30, bottom: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              width: 0.5,
-                              color: Color.fromARGB(255, 170, 187, 216))),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor:
-                                  Color.fromARGB(255, 233, 235, 252),
-                              child: Icon(
-                                Icons.house_rounded,
-                                size: 30,
+                    GestureDetector(
+                      onTap: (){
+                        context.push("/posts", extra: [posts, "House"] );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        padding: EdgeInsets.only(
+                            left: 30, top: 20, right: 30, bottom: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                width: 0.5,
+                                color: Color.fromARGB(255, 170, 187, 216))),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundColor:
+                                    Color.fromARGB(255, 233, 235, 252),
+                                child: Icon(
+                                  Icons.house_rounded,
+                                  size: 30,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "House",
-                              style: TextStyle(fontWeight: FontWeight.w900),
-                            )
-                          ]),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "House",
+                                style: TextStyle(fontWeight: FontWeight.w900),
+                              )
+                            ]),
+                      ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.only(
-                          left: 30, top: 20, right: 30, bottom: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              width: 0.5,
-                              color: Color.fromARGB(255, 170, 187, 216))),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor:
-                                  Color.fromARGB(255, 233, 235, 252),
-                              child: Icon(
-                                Icons.villa,
-                                size: 30,
+                    GestureDetector(
+                      onTap: (){
+                        context.push("/posts", extra: [posts, "Villa"] );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        padding: EdgeInsets.only(
+                            left: 30, top: 20, right: 30, bottom: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                width: 0.5,
+                                color: Color.fromARGB(255, 170, 187, 216))),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundColor:
+                                    Color.fromARGB(255, 233, 235, 252),
+                                child: Icon(
+                                  Icons.villa,
+                                  size: 30,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Villa",
-                              style: TextStyle(fontWeight: FontWeight.w900),
-                            )
-                          ]),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Villa",
+                                style: TextStyle(fontWeight: FontWeight.w900),
+                              )
+                            ]),
+                      ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.only(
-                          left: 30, top: 20, right: 30, bottom: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              width: 0.5,
-                              color: Color.fromARGB(255, 170, 187, 216))),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor:
-                                  Color.fromARGB(255, 233, 235, 252),
-                              child: Icon(
-                                Icons.apartment,
-                                size: 30,
+                    GestureDetector(
+                      onTap: (){
+                        context.push("/posts", extra: [posts, "Apartment"] );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        padding: EdgeInsets.only(
+                            left: 30, top: 20, right: 30, bottom: 20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                width: 0.5,
+                                color: Color.fromARGB(255, 170, 187, 216))),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundColor:
+                                    Color.fromARGB(255, 233, 235, 252),
+                                child: Icon(
+                                  Icons.apartment,
+                                  size: 30,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Apartment",
-                              style: TextStyle(fontWeight: FontWeight.w900),
-                            )
-                          ]),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Apartment",
+                                style: TextStyle(fontWeight: FontWeight.w900),
+                              )
+                            ]),
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.all(5),
@@ -369,21 +378,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Popular",
+                        "For You",
                         style: TextStyle(
                             color: Color.fromARGB(221, 41, 40, 40),
                             fontWeight: FontWeight.w900,
                             fontSize: 20),
                       ),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "See all",
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 15),
-                          )),
+                      
                     ]),
               ),
               Container(

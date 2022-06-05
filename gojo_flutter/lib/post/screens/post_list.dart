@@ -14,17 +14,18 @@ import 'package:go_router/go_router.dart';
 import 'package:meta/meta.dart';
 
 class PostList extends StatefulWidget {
-  var filters;
-  final List<Post> posts;
-  PostList(@required this.filters, @required this.posts);
+  final input;
+  PostList(@required this.input);
+  
+
   @override
-  State<PostList> createState() => _PostListState(posts, filters);
+  State<PostList> createState() => _PostListState(input[0], input[1]);
 }
 
 class _PostListState extends State<PostList> {
-  var filters;
+  var type;
   final posts;
-  _PostListState(List<Post> this.posts, this.filters);
+  _PostListState(List<Post> this.posts, this.type);
   int _idx = 0;
   // List pages = [
   //   Profile(User(
@@ -53,7 +54,7 @@ class _PostListState extends State<PostList> {
   RangeValues _currentareaRangeValues = const RangeValues(100, 8000);
   PostRepository postRepository =
       PostRepository(dataProvider: PostDataProvider());
-  
+
   final PostBloc postBloc =
       PostBloc(PostRepository(dataProvider: PostDataProvider()));
 
@@ -122,7 +123,7 @@ class _PostListState extends State<PostList> {
                 ], [
                   _currentareaRangeValues.start,
                   _currentareaRangeValues.end
-                ], "house", posts!, searchCtrl.text));
+                ], "house", posts!, searchCtrl.text, ''));
               },
               child: Text("Apply",
                   style: TextStyle(
@@ -155,7 +156,7 @@ class _PostListState extends State<PostList> {
                           ], [
                             _currentareaRangeValues.start,
                             _currentareaRangeValues.end
-                          ], "house", posts!, searchCtrl.text));
+                          ], "house", posts!, searchCtrl.text, ''));
                         },
                         controller: searchCtrl,
                         prefixInsets: EdgeInsets.all(10),
@@ -188,30 +189,22 @@ class _PostListState extends State<PostList> {
                   : Container(
                       height: 0,
                     ),
+              
               Container(
-                padding: EdgeInsets.only(left: 25),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Hello,",
-                        style: TextStyle(
-                            color: Color.fromARGB(221, 41, 40, 40),
-                            fontWeight: FontWeight.w900,
-                            fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text("Andrew Velle"),
-                      SizedBox(
-                        height: 5,
-                      ),
-                    ]),
-              ),
-              Container(
+                height: MediaQuery.of(context).size.height,
+
                 child: BlocBuilder<PostBloc, PostState>(
                   builder: (_, state) {
+                    if (state is PostLoading) {
+                      postBloc
+                        ..add(PostFilter([
+                          _currentRangeValues.start,
+                          _currentRangeValues
+                        ], [
+                          _currentareaRangeValues.start,
+                          _currentareaRangeValues.end
+                        ], type, posts, searchCtrl.text, ''));
+                    }
                     if (state is PostOperationFailure) {
                       return Center(
                         child: Text("Failed"),
@@ -243,12 +236,14 @@ class _PostListState extends State<PostList> {
                               elevation: 0,
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
+                                height: 200,
                                 child: Column(
                                   children: [
                                     Expanded(
                                       child: Stack(
                                         children: [
                                           Container(
+                                            width: MediaQuery.of(context).size.width,
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(15),
