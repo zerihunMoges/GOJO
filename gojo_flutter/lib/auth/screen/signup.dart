@@ -127,6 +127,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key: Key("formtext"),
                   controller: nameController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -166,6 +167,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key: Key("formtext2"),
                   controller: lastNameController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -205,6 +207,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key: Key("formtext3"),
                   controller: usernameController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -243,6 +246,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key: Key("formtext4"),
                   controller: emailController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -282,6 +286,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key: Key("formtext5"),
                   controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -323,6 +328,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key: Key("formtext6"),
                   controller: confirmpasswordController,
                   obscureText: true,
                   decoration: InputDecoration(

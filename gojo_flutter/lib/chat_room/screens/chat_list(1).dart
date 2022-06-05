@@ -48,7 +48,7 @@ class _ChatsState extends State<ChatList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Messages",
+                        'Messages',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,

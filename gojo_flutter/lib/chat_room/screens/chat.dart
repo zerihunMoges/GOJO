@@ -68,58 +68,28 @@ class ChatDetail extends StatelessWidget {
                 }
                 if (state is MessagesLoadSuccess) {
                   return state.messages.isNotEmpty
-                      ? GroupedListView<Message, DateTime>(
-                          padding: EdgeInsets.all(8),
+                      ? ListView.builder(
                           reverse: true,
-                          order: GroupedListOrder.DESC,
-                          floatingHeader: true,
-                          elements: state.messages,
-                          groupBy: (message) =>
-                              DateTime(message.time.month, message.time.day),
-                          groupHeaderBuilder: (Message message) => SizedBox(
-                            height: 40,
-                            child: Align(
-                              child: Center(
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(6),
-                                    child: Text(
-                                      DateFormat.MMMd().format(message.time),
-                                      style: TextStyle(color: Colors.grey[600]),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          itemBuilder: (context, Message message) => Align(
-                            alignment: authState.userId.id == message.owner
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                            child: Bubble(
-                              nipWidth: 9,
-                              nipHeight: 6,
-                              margin: const BubbleEdges.only(top: 5),
-                              nip: (authState.userId.id != message.owner
-                                  ? BubbleNip.leftBottom
-                                  : BubbleNip.rightBottom),
-                              color: (authState.userId.id != message.owner
-                                  ? Colors.white
-                                  : Color.fromARGB(122, 3, 48, 88)),
-                              child: Padding(
-                                padding: EdgeInsets.all(2),
-                                child: Text(
-                                  message.text,
-                                  style: TextStyle(color: Colors.black87),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
+                          itemCount: state.messages.length,
+                          itemBuilder: (_, index) => Align(
+                              alignment: authState.userId.id ==
+                                      state.messages[index].owner
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: Container(
+                                  margin: EdgeInsets.all(10),
+                                  color: authState.userId.id ==
+                                          state.messages[index].owner
+                                      ? Colors.indigoAccent
+                                      : Colors.black12,
+                                  // decoration: BoxDecoration(
+                                  //   shape: BoxShape.rectangle,
+                                  //   borderRadius: BorderRadius.circular(50),),
+                                  // decoration: BoxDecoration( borderRadius: BorderRadius.circular(50)),
+                                  // decoration: BoxDecoration(borderRadius: BorderRadiusGeometry()),
+                                  // color: Colors.black12/,
+                                  padding: EdgeInsets.all(20),
+                                  child: Text(state.messages[index].text))))
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
