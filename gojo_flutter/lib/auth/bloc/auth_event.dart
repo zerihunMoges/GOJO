@@ -1,10 +1,7 @@
 import 'package:equatable/equatable.dart';
+import '../model/model.dart';
 
-abstract class AuthEvent extends Equatable {
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
-}
+abstract class AuthEvent {}
 
 class Login extends AuthEvent {
   late final String email;
@@ -26,4 +23,10 @@ class Signup extends AuthEvent {
       required this.last_name,
       required this.email,
       required this.password});
+}
+
+class UserUpdate extends AuthEvent {
+  final OtherUser user;
+
+  UserUpdate(this.user);
 }

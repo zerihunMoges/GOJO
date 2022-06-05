@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gojo_flutter/database.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -165,11 +166,6 @@ class _LoginState extends State<LoginPage> {
                             return current is LoginSuccessful;
                           }),
                           listener: (_, AuthState state) {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (_) => Create_post()),
-                            // );
-
                             context.go("/home");
                             // u should pass the state value id to the other page
                           },

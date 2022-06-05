@@ -41,7 +41,7 @@ class UserView(APIView):
         try:
             user = User.objects.get(id=pk)
             serialized = UserSerializer(user)
-            return Response(serialized.data)
+            return Response(serialized.data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -52,20 +52,34 @@ class UserView(APIView):
             if serialized.is_valid():
                 serialized.save()
 
-                return Response(serialized.data)
+                return Response(serialized.data, status=status.HTTP_200_OK)
             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
+        print(f"the data is {request.data}")
+        print(f"the id si {pk}")
+        new_data = {"username": request.data["username"],
+                    "first_name": request.data["first_name"],
+                    "last_name": request.data["last_name"],
+                    "email": request.data["email"], }
         try:
             user = User.objects.get(id=pk)
-            serialized = UserSerializer(instance=user, data=request.data)
+            serialized = OtherUserSerializer(instance=user, data=new_data)
             if serialized.is_valid():
                 serialized.save()
 
-                return Response(serialized.data)
+                return Response(serialized.data, status=status.HTTP_200_OK)
             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        try:
+            user = User.objects.get(id=pk)
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -86,24 +100,13 @@ class RegisterView(APIView):
             "last_name": request.data["last_name"],
             "email": request.data["email"]
         }
+        print(request.data)
         serialized = UserSerializer(data=new_data)
         if serialized.is_valid(raise_exception=True):
             serialized.save()
             return Response(serialized.data, status=status.HTTP_201_CREATED)
+        print(serialized.errors)
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class LoginView(APIView):
-    def post(self, request):
-        data = request.data
-        username = data["username"]
-        password = data["password"]
-        user = authenticate(username=username, password=password)
-        if user != None:
-            serialized = UserSerializer(instance=user)
-            login(request, user)
-            return Response(serialized.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogOutView(APIView):
@@ -173,7 +176,7 @@ class PostView(APIView):
         try:
             post = Post.objects.get(id=pk)
             post.delete()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -195,7 +198,6 @@ class ChatsView(APIView):
         print(request.data)
         data = request.data
         serialized = ChatSerializer(data=request.data)
-        print(serialized.data)
         if serialized.is_valid():
             serialized.save()
             return Response(serialized.data, status=status.HTTP_201_CREATED)
@@ -218,7 +220,7 @@ class ChatView(APIView):
         try:
             chat = Chat.objects.get(id=pk)
             chat.delete()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:gojo_flutter/post/models/post.dart';
 import 'package:http/http.dart' as http;
+import 'package:gojo_flutter/database.dart';
 
 class PostDataProvider {
   final baseUrl = 'http://127.0.0.1:8000/api/v1/posts';
@@ -43,14 +44,15 @@ class PostDataProvider {
   Future<List<Post>> getPosts() async {
     print(Uri.parse(baseUrl));
     try {
-      final response = await client.get(Uri.parse(baseUrl));
+      final response = await client.get(
+        Uri.parse(baseUrl),
+        // headers: {'Authorization': 'Bearer ${DatabaseProvider.db.getToken()}'}
+      );
 
       if (response.statusCode == 200) {
-        print("made it here");
         List<Post> posts = [];
         List<dynamic> postse = jsonDecode(response.body);
         for (var json in postse) {
-          
           print("this is the json $json");
           posts.add(Post.fromJson(json));
         }

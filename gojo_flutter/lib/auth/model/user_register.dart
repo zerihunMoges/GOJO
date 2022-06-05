@@ -5,11 +5,10 @@ class User_register {
   late String email;
   late String password;
 
-  User_register({
-    required this.username,
-    required this.name,
-    required this.last_name,
-    required this.email,
-    required this.password,
-  });
+  User_register(
+      {required this.username,
+      required this.name,
+      required this.last_name,
+      required this.email,
+      required this.password});
 }

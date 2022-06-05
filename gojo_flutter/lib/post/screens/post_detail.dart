@@ -23,7 +23,7 @@ class PostDetail extends StatelessWidget {
                     width: 500,
                     height: 250,
                     child: Image.asset(
-                      "assets/food_1.jpeg",
+                      "assets/melancholy.png",
                       fit: BoxFit.fill,
                     ),
                   ),

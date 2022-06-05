@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +7,7 @@ import '../data_provider/data_provider.dart';
 import '../model/model.dart';
 import '../repository/repository.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:go_router/go_router.dart';
 
 class Profile extends StatefulWidget {
   final user;
@@ -63,6 +63,37 @@ class _ProfileState extends State<Profile> {
             BlocProvider(
               create: (_) => authBloc,
               child: BlocBuilder<AuthBloc, AuthState>(builder: (_, state) {
+                if (state is UserUpdating) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (state is UserUpdateFailure) {
+                  return AlertDialog(
+                    content:
+                        Text("Couldn't Update User, Redirect to Login Page"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          context.go("/");
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
+                  );
+                }
+                if (state is UserUpdateSuccess) {
+                  return AlertDialog(
+                    content: Text(
+                        "User Updating Succesfully, Redirect to Login Page"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          context.go("/");
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
+                  );
+                }
                 return Form(
                   key: _formKey,
                   child: Container(
@@ -82,7 +113,8 @@ class _ProfileState extends State<Profile> {
                                         height: 150,
                                         fit: BoxFit.cover,
                                       ).image
-                                    : Image.asset("assets/food_1.jpeg").image,
+                                    : Image.asset("assets/melancholy.png")
+                                        .image,
                               ),
                             ),
                             Positioned(
@@ -251,20 +283,18 @@ class _ProfileState extends State<Profile> {
                               onPressed: () {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid.
-                                // if (_formKey.currentState!.validate()) {
-                                //   authBloc.add(UserUpdate(User(
-                                //       email: emailCtrl.text,
-                                //       name: firstCtrl.text,
-                                //       last_name: lastCtrl.text,
-                                //       username: usernameCtrl.text,
-                                //       id: user.id,
-                                //       access_token: user.access_token,
-                                //       refresh_token: user.refresh_token)));
-                                // }
+                                if (_formKey.currentState!.validate()) {
+                                  authBloc.add(UserUpdate(OtherUser(
+                                      email: emailCtrl.text,
+                                      name: firstCtrl.text,
+                                      last_name: lastCtrl.text,
+                                      username: usernameCtrl.text,
+                                      id: user.id!)));
+                                }
                               },
                               child: state is UserUpdating
                                   ? CircularProgressIndicator()
-                                  : state is UserUpdateFailuer
+                                  : state is UserUpdateFailure
                                       ? const Text('Retry')
                                       : Text('Submit')),
                         ),

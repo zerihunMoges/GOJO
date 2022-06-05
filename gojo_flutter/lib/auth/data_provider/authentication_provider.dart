@@ -1,5 +1,4 @@
 import '../model/model.dart';
-import '../model/user_register.dart';
 import '../utils/Api_response.dart';
 import 'package:http/http.dart';
 

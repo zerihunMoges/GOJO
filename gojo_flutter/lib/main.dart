@@ -5,13 +5,15 @@ import 'package:gojo_flutter/auth/bloc/auth_bloc.dart';
 import 'package:gojo_flutter/auth/index.dart';
 import 'package:gojo_flutter/auth/repository/authentication_repository.dart';
 import 'package:gojo_flutter/auth/screen/profilesetting.dart';
+import 'package:gojo_flutter/database.dart';
 // import 'package:gojo_flutter/pages/chats.dart';
-import 'package:gojo_flutter/pages/search.dart';
+// import 'package:gojo_flutter/pages/search.dart';
 import './auth/screen/profile.dart';
 import './chat_room/chat_room.dart';
 import './chat_room/chat_room.dart';
 import 'auth/screen/signup.dart';
 import './post/post.dart';
+import 'package:path/path.dart';
 
 void main() {
   runApp(GOJO());
@@ -70,7 +72,7 @@ class GOJO extends StatelessWidget {
   final _router = GoRouter(
     routes: [
       GoRoute(
-        path: "/login",
+        path: "/",
         builder: (context, state) => LoginPage(),
       ),
       GoRoute(
@@ -101,13 +103,13 @@ class GOJO extends StatelessWidget {
         ),
       ),
       GoRoute(
-        path: "/",
+        path: "/admin",
         builder: (context, state) => AdminPage(),
       ),
-      GoRoute(
-        path: "/search",
-        builder: (context, state) => SearchPost(),
-      ),
+      // GoRoute(
+      //   path: "/search",
+      //   builder: (context, state) => SearchPost(),
+      // ),
       GoRoute(
         path: "/chats",
         builder: (context, state) => ChatList(),

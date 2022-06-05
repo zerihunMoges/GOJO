@@ -338,7 +338,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                     if (state is PostLoadSuccess) {
                       this.posts = state.posts;
-                      print(this.posts![0].photo);
                     }
 
                     if (state is PostLoadSuccess ||
