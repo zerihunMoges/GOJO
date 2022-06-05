@@ -102,7 +102,7 @@ class GOJO extends StatelessWidget {
       ),
       GoRoute(
         path: "/",
-        builder: (context, state) => AdminPage(),
+        builder: (context, state) => LoginPage(),
       ),
       GoRoute(
         path: "/search",
