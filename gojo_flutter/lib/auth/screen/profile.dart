@@ -54,7 +54,7 @@ class _ProfileState extends State<Profile> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          title: Text("Edit Profile", style: TextStyle(color: Colors.black)),
+          title: Text('Edit Profile', style: TextStyle(color: Colors.black)),
         ),
         body: Container(
             child: ListView(
@@ -119,7 +119,7 @@ class _ProfileState extends State<Profile> {
                         Padding(
                           padding: const EdgeInsets.only(left: 12.0),
                           child: Text(
-                            "Full Name",
+                            'Full Name',
                             style: TextStyle(
                               color: Colors.black45,
                               fontSize: 16,
@@ -135,7 +135,7 @@ class _ProfileState extends State<Profile> {
                           child: TextFormField(
                             controller: firstCtrl,
                             decoration: InputDecoration(
-                              hintText: "${user.name}",
+                              hintText: '${user.name}',
                             ),
                             validator: (String? value) {
                               if (value == null || value.isEmpty) {
@@ -183,7 +183,7 @@ class _ProfileState extends State<Profile> {
                         Padding(
                           padding: const EdgeInsets.only(left: 12.0),
                           child: Text(
-                            "User Name",
+                            'User Name',
                             style: TextStyle(
                               color: Colors.black45,
                               fontSize: 16,
@@ -215,7 +215,7 @@ class _ProfileState extends State<Profile> {
                         Padding(
                           padding: const EdgeInsets.only(left: 12.0),
                           child: Text(
-                            "Email",
+                            'Email',
                             style: TextStyle(
                               color: Colors.black45,
                               fontSize: 16,

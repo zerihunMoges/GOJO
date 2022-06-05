@@ -27,10 +27,7 @@ class _ChatsState extends State<ChatList> {
           "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY1NjgzMTk3NywiaWF0IjoxNjU0MjM5OTc3LCJqdGkiOiIyZTgyYTI0NzlmYzE0NjBhODNlZDJlZTA1OTIzM2FkYyIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiaGVub2siLCJlbWFpbCI6Imhlbm9rQGdtYWlsLmNvbSIsImZpcnN0X25hbWUiOiIiLCJsYXN0X25hbWUiOiIifQ.tz0uRp1DunMTXyassFQRQyL45YeJA5vxPs7zP6jkWy4");
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
-    return BlocProvider(
-      create: (_) => authBloc,
-      child: BlocBuilder<AuthBloc, AuthState>(
+    return  BlocBuilder<AuthBloc, AuthState>(
         builder: (_, AuthState authState) => BlocProvider(
           create: (_) => ChatBloc(ChatRepository(ChatDataProvider(
               authState is LoginSuccessful ? authState.userId : tempUser)))
@@ -48,7 +45,7 @@ class _ChatsState extends State<ChatList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Messages",
+                        'Messages',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -250,7 +247,6 @@ class _ChatsState extends State<ChatList> {
                   ),
                 ],
               )),
-        ),
       ),
     );
   }

@@ -49,7 +49,7 @@ class _SignUpState extends State<SignUp> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        "GOJO",
+                        'GOJO',
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w700),
                       ),
@@ -89,6 +89,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key:Key("formtext"),
                   controller: nameController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -128,6 +129,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key:Key("formtext2"),
                   controller: lastNameController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -167,6 +169,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key:Key("formtext3"),
                   controller: usernameController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -205,6 +208,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key:Key("formtext4"),
                   controller: emailController,
                   decoration: InputDecoration(
                     fillColor: Colors.grey[200],
@@ -244,6 +248,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 260,
                 child: TextFormField(
+                  key:Key("formtext5"),
                   controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -283,6 +288,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               SizedBox(
+                key:Key("formtext6"),
                 width: 260,
                 child: TextFormField(
                   controller: confirmpasswordController,
@@ -343,6 +349,7 @@ class _SignUpState extends State<SignUp> {
                   }
 
                   return ButtonTheme(
+                    key: Key("button"),
                       minWidth: 110,
                       height: 37,
                       // ignore: deprecated_member_use

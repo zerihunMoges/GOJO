@@ -60,7 +60,7 @@ class ProfileSetting extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${user.name}",
+                        '${user.name}',
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 20,
@@ -68,7 +68,7 @@ class ProfileSetting extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        "${user.email}",
+                        '${user.email}',
                         style: TextStyle(
                           color: Colors.black38,
                         ),
@@ -77,7 +77,7 @@ class ProfileSetting extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        "${user.username}",
+                        '${user.username}',
                         style: TextStyle(
                           color: Colors.black38,
                         ),

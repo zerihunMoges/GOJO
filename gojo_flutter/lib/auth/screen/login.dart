@@ -53,7 +53,7 @@ class _LoginState extends State<LoginPage> {
                     children: [
                       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                         Text(
-                          "Sign in to your account",
+                          'Sign in to your account',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,

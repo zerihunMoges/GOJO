@@ -1,4 +1,3 @@
-from curses.textpad import Textbox
 from .models import *
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
