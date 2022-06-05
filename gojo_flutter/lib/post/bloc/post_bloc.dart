@@ -61,6 +61,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   void _search(PostFilter event, Emitter emit) {
     if (event.userid != '') {
+    
       List<Post> searched = event.posts
           .where((post) =>
               post.user.toString() == event.userid.toString() )

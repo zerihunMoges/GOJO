@@ -26,6 +26,7 @@ class PostDataProvider {
       body: jsonEncode(<dynamic, dynamic>{
         'title': post.title,
         'user': post.user,
+        'type': post.type,
         'photo': post.photo,
         'price': post.price,
         'area': post.area,

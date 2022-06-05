@@ -16,13 +16,12 @@ import 'package:meta/meta.dart';
 class UserPosts extends StatefulWidget {
   final data;
   UserPosts([@required this.data]);
-  
+
   @override
   State<UserPosts> createState() => _UserPostsState(data);
 }
 
 class _UserPostsState extends State<UserPosts> {
-  
   final user;
   _UserPostsState(this.user);
   int _idx = 0;
@@ -55,7 +54,8 @@ class _UserPostsState extends State<UserPosts> {
       PostRepository(dataProvider: PostDataProvider());
 
   final PostBloc postBloc =
-      PostBloc(PostRepository(dataProvider: PostDataProvider()))..add(PostLoad());
+      PostBloc(PostRepository(dataProvider: PostDataProvider()))
+        ..add(PostLoad());
 
   var searchCtrl = TextEditingController();
   @override
@@ -74,14 +74,14 @@ class _UserPostsState extends State<UserPosts> {
                 child: BlocBuilder<PostBloc, PostState>(
                   builder: (_, state) {
                     if (state is PostLoadSuccess) {
-                      postBloc
-                        .add(PostFilter([
-                          _currentRangeValues.start,
-                          _currentRangeValues
-                        ], [
-                          _currentareaRangeValues.start,
-                          _currentareaRangeValues.end
-                        ], '', state.posts, '', user));
+                      print("loaded successfully");
+                      postBloc.add(PostFilter([
+                        _currentRangeValues.start,
+                        _currentRangeValues.end
+                      ], [
+                        _currentareaRangeValues.start,
+                        _currentareaRangeValues.end
+                      ], '', state.posts, '', user));
                     }
                     if (state is PostOperationFailure) {
                       return Center(
@@ -90,6 +90,7 @@ class _UserPostsState extends State<UserPosts> {
                     }
 
                     if (state is PostFilterSuccess) {
+                      print("filtered successfuly");
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         padding: EdgeInsets.only(left: 10),

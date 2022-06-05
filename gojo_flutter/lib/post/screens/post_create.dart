@@ -518,7 +518,7 @@ class _CreatePostState extends State<CreatePost> {
                             postBloc.add(PostCreate(Post(
                                 id: '1',
                                 title: titleCtrl.text,
-                                user: "5",
+                                user: "1",
                                 type: dropdownvalue,
                                 photo: pickedFile!.bytes!,
                                 price: priceCtrl.text,
