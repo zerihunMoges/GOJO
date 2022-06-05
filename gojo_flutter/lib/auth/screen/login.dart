@@ -4,6 +4,20 @@ import '../bloc/bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gojo_flutter/database.dart';
 
+class EmailFieldValidator {
+  static String? validate(String value) {
+    return (value.isEmpty || value == null) ? "email not entered " : null;
+  }
+}
+
+class PasswordFiledValidator {
+  static String? validate(String value) {
+    return (value.isEmpty || value == null)
+        ? "please enter your password"
+        : null;
+  }
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 

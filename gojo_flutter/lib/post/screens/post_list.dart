@@ -11,15 +11,21 @@ import 'package:gojo_flutter/post/dataprovider/post_data.dart';
 import 'package:gojo_flutter/post/models/post.dart';
 import 'package:gojo_flutter/post/repository/post_repository.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meta/meta.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class PostList extends StatefulWidget {
+  final input;
+  PostList(@required this.input);
+  
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<PostList> createState() => _PostListState(input[0], input[1]);
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _PostListState extends State<PostList> {
+  var type;
+  final posts;
+  _PostListState(List<Post> this.posts, this.type);
   int _idx = 0;
   // List pages = [
   //   Profile(User(
@@ -48,10 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
   RangeValues _currentareaRangeValues = const RangeValues(100, 8000);
   PostRepository postRepository =
       PostRepository(dataProvider: PostDataProvider());
-  List<Post>? posts;
+
   final PostBloc postBloc =
-      PostBloc(PostRepository(dataProvider: PostDataProvider()))
-        ..add(PostLoad());
+      PostBloc(PostRepository(dataProvider: PostDataProvider()));
+
   var searchCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -183,226 +189,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   : Container(
                       height: 0,
                     ),
+              
               Container(
-                padding: EdgeInsets.only(left: 25),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Hello,",
-                        style: TextStyle(
-                            color: Color.fromARGB(221, 41, 40, 40),
-                            fontWeight: FontWeight.w900,
-                            fontSize: 20),
-                      ),
-                    ]),
-              ),
-              Stack(children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    clipBehavior: Clip.antiAlias,
-                    child: Opacity(
-                        opacity: 0.9,
-                        child: Image.asset("homeimage.jpg",
-                            fit: BoxFit.cover,
-                            color: Color.fromARGB(75, 0, 0, 0),
-                            colorBlendMode: BlendMode.overlay)),
-                  ),
-                ),
-                Positioned(
-                    top: 20,
-                    left: 40,
-                    child: Text(
-                      "Welcome To Gojo",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          backgroundColor: Color.fromARGB(76, 0, 0, 0),
-                          fontWeight: FontWeight.w900,
-                          fontSize: 40),
-                    ))
-              ]),
-              Container(
-                height: 140,
-                child: ListView(
-                  padding: EdgeInsets.only(left: 10),
-                  scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(
-                      parent: AlwaysScrollableScrollPhysics()),
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        context.push("/posts", extra: [posts, "House"]);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all(5),
-                        padding: EdgeInsets.only(
-                            left: 30, top: 20, right: 30, bottom: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                width: 0.5,
-                                color: Color.fromARGB(255, 170, 187, 216))),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor:
-                                    Color.fromARGB(255, 233, 235, 252),
-                                child: Icon(
-                                  Icons.house_rounded,
-                                  size: 30,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "House",
-                                style: TextStyle(fontWeight: FontWeight.w900),
-                              )
-                            ]),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.push("/posts", extra: [posts, "Villa"]);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all(5),
-                        padding: EdgeInsets.only(
-                            left: 30, top: 20, right: 30, bottom: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                width: 0.5,
-                                color: Color.fromARGB(255, 170, 187, 216))),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor:
-                                    Color.fromARGB(255, 233, 235, 252),
-                                child: Icon(
-                                  Icons.villa,
-                                  size: 30,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Villa",
-                                style: TextStyle(fontWeight: FontWeight.w900),
-                              )
-                            ]),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        context.push("/posts", extra: [posts, "Apartment"]);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.all(5),
-                        padding: EdgeInsets.only(
-                            left: 30, top: 20, right: 30, bottom: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                width: 0.5,
-                                color: Color.fromARGB(255, 170, 187, 216))),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor:
-                                    Color.fromARGB(255, 233, 235, 252),
-                                child: Icon(
-                                  Icons.apartment,
-                                  size: 30,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Apartment",
-                                style: TextStyle(fontWeight: FontWeight.w900),
-                              )
-                            ]),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.only(
-                          left: 30, top: 20, right: 30, bottom: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              width: 0.5,
-                              color: Color.fromARGB(255, 170, 187, 216))),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor:
-                                  Color.fromARGB(255, 233, 235, 252),
-                              child: Icon(
-                                Icons.group,
-                                size: 30,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Room Mate",
-                              style: TextStyle(fontWeight: FontWeight.w900),
-                            )
-                          ]),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "For You",
-                        style: TextStyle(
-                            color: Color.fromARGB(221, 41, 40, 40),
-                            fontWeight: FontWeight.w900,
-                            fontSize: 20),
-                      ),
-                    ]),
-              ),
-              Container(
-                height: 263,
+                height: MediaQuery.of(context).size.height,
+
                 child: BlocBuilder<PostBloc, PostState>(
                   builder: (_, state) {
+                    if (state is PostLoading) {
+                      postBloc
+                        ..add(PostFilter([
+                          _currentRangeValues.start,
+                          _currentRangeValues
+                        ], [
+                          _currentareaRangeValues.start,
+                          _currentareaRangeValues.end
+                        ], type, posts, searchCtrl.text, ''));
+                    }
                     if (state is PostOperationFailure) {
                       return Center(
                         child: Text("Failed"),
                       );
                     }
-                    if (state is PostLoadSuccess) {
-                      this.posts = state.posts;
-                    }
 
-                    if (state is PostLoadSuccess ||
-                        state is PostFilterSuccess) {
-                      print(state.posts);
+                    if (state is PostFilterSuccess) {
                       return ListView.builder(
-                        scrollDirection: Axis.horizontal,
+                        scrollDirection: Axis.vertical,
                         padding: EdgeInsets.only(left: 10),
                         physics: BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
@@ -424,13 +235,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               elevation: 0,
                               child: Container(
-                                width: 200,
+                                width: MediaQuery.of(context).size.width,
+                                height: 200,
                                 child: Column(
                                   children: [
                                     Expanded(
                                       child: Stack(
                                         children: [
                                           Container(
+                                            width: MediaQuery.of(context).size.width,
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(15),
@@ -622,60 +435,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-        ),
-        bottomNavigationBar: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, state) {
-            if (state is! LoginSuccessful) {
-              return Text("Login");
-            }
-            return BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home_rounded,
-                    color: Color.fromARGB(255, 53, 40, 235),
-                  ),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.add_business,
-                      color: Color.fromARGB(255, 53, 40, 235),
-                    ),
-                    label: ""),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.messenger,
-                    color: Color.fromARGB(255, 53, 40, 235),
-                  ),
-                  label: "",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person,
-                    color: Color.fromARGB(255, 53, 40, 235),
-                  ),
-                  label: "",
-                ),
-              ],
-              currentIndex: _idx,
-              onTap: (int index) {
-                setState(() {
-                  _idx = index;
-                });
-
-                if (_idx == 3) {
-                  context.push("/settings", extra: state.userId);
-                }
-                if (_idx == 2) {
-                  context.push("/chats", extra: state.userId);
-                }
-                if (_idx == 1) {
-                  context.push("/createPost", extra: state.userId);
-                }
-              },
-            );
-          },
         ),
       ),
     );

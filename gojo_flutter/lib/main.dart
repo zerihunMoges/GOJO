@@ -84,6 +84,10 @@ class GOJO extends StatelessWidget {
         builder: (context, state) => PostDetail(state.extra! as Post),
       ),
       GoRoute(
+        path: "/createPost",
+        builder: (context, state) => CreatePost(),
+      ),
+      GoRoute(
         path: "/profile",
         builder: (context, state) => Profile(state.extra! as User),
       ),

@@ -35,14 +35,32 @@ class Text(models.Model):
         return self.text[:10]
 
 
+# class Post(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     title = models.CharField(max_length=200)
+#     photo = models.ImageField(null=True)
+#     location = models.TextField(null=True, blank=True)
+#     price = models.FloatField()
+#     area = models.FloatField()
+#     rooms = models.ManyToManyField(Room, blank=True, null=True)
+#     payment_frequency = models.IntegerField()
+#     created = models.DateTimeField(auto_now_add=True)
+#     updated = models.DateTimeField(auto_now=True)
+
+#     def __str__(self) -> str:
+#         return self.title
+
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     title = models.CharField(max_length=200)
-    photo = models.ImageField(null=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    type = models.CharField(max_length=200)
+    photo = models.JSONField(default=[])
     location = models.TextField(null=True, blank=True)
     price = models.FloatField()
     area = models.FloatField()
-    rooms = models.ManyToManyField(Room, blank=True, null=True)
+    rooms = models.JSONField(default=[[]])
     payment_frequency = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

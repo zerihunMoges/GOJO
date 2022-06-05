@@ -13,7 +13,7 @@ class LoadChats extends ChatEvent {
 }
 
 class CreateChat extends ChatEvent {
-  final Chat chat;
+  final Map<String, dynamic> chat;
 
   const CreateChat(this.chat);
 

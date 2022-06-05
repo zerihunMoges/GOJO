@@ -14,7 +14,4 @@ urlpatterns = [
          MessagesView.as_view(), name="messages"),
     path("users", ListUsers.as_view(), name="users"),
     path("users/<str:pk>", UserView.as_view(), name="user"),
-
-    # path("messages", MessagesPostView.as_view(), name="post"),
-    # path('message/<str:pk>'),
 ]

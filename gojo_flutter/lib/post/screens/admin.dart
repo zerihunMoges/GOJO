@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gojo_flutter/auth/bloc/auth_bloc.dart';
 import 'package:gojo_flutter/post/bloc/bloc.dart';
 import './admin_posts.dart';
-import 'package:gojo_flutter/pages/admin/Screens/admin_users.dart';
 import '../../auth/index.dart';
 import '../dataprovider/data_provider.dart';
 import '../repository/repository.dart';
+import '../../user/index.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -115,7 +114,16 @@ class _AdminPageState extends State<AdminPage> {
                 AuthBloc(AuthenticationRepo(AuthenticationRemote())),
             child: TabBarView(
               children: [
-                AdminUsers(),
+                BlocProvider(
+                  create: (context) {
+                    return UserBloc(
+                      UserRepository(
+                        dataProvider: UserDataProvider(),
+                      ),
+                    )..add(UserLoad());
+                  },
+                  child: AdminUsers(),
+                ),
                 BlocProvider<PostBloc>(
                     create: (context) => PostBloc(
                         PostRepository(dataProvider: PostDataProvider()))

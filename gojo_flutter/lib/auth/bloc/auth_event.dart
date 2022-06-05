@@ -30,3 +30,5 @@ class UserUpdate extends AuthEvent {
 
   UserUpdate(this.user);
 }
+
+class LoadUsers extends AuthEvent {}

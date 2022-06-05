@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/bloc.dart';
 import '../data_provider/data_provider.dart';
@@ -8,6 +7,34 @@ import '../model/model.dart';
 import '../repository/repository.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:go_router/go_router.dart';
+
+class UserNameCtrlFieldValidator {
+  static String? validate(String value) {
+    return (value.isEmpty || value == null) ? "please enter username" : null;
+  }
+}
+
+class FirstNameFieldValidator {
+  static String? validate(String value) {
+    return (value.isEmpty || value == null)
+        ? "please enter your first name "
+        : null;
+  }
+}
+
+class LastNameFieldValidator {
+  static String? validate(String value) {
+    return (value.isEmpty || value == null)
+        ? "please enter your last name "
+        : null;
+  }
+}
+
+class EmailCtrlFieldValidator {
+  static String? validate(String value) {
+    return (value.isEmpty || value == null) ? "Please enter your email" : null;
+  }
+}
 
 class Profile extends StatefulWidget {
   final user;

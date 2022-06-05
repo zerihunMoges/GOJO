@@ -24,6 +24,20 @@ class SigninFailed extends AuthState {}
 
 class UserUpdating extends AuthState {}
 
-class UserUpdateSuccess extends AuthState {}
+class UserUpdateSuccess extends AuthState {
+  final message = "User has been updated succesfully";
+}
 
-class UserUpdateFailure extends AuthState {}
+class UserUpdateFailure extends AuthState {
+  final message = "Couldn't update user";
+}
+
+class UserDeleting extends AuthState {}
+
+class UserDeleteSuccess extends AuthState {
+  final message = "User has been deleted succesfully";
+}
+
+class UserDeleteFailure extends AuthState {
+  final message = "Couldn't delete user";
+}

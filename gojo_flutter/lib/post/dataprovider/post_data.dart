@@ -1,20 +1,21 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:gojo_flutter/post/models/post.dart';
 import 'package:http/http.dart' as http;
-import 'package:gojo_flutter/database.dart';
 
 class PostDataProvider {
   final baseUrl = 'http://127.0.0.1:8000/api/v1/posts';
   var client = http.Client();
   Future<Post> createPost(Post post) async {
-    List<String> rooms = [];
+    List<Map> rooms = [];
 
     for (var room in post.rooms) {
-      rooms.add(jsonEncode(<dynamic, dynamic>{
+      rooms.add({
         'type': room.type,
+        'photos': room.photos,
         'count': room.count,
-      }));
+      });
     }
 
     final response = await client.post(
@@ -23,51 +24,51 @@ class PostDataProvider {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
-        'id': post.id,
         'title': post.title,
-        'user': post.username,
+        'user': post.user,
+        'type': post.type,
         'photo': post.photo,
         'price': post.price,
         'area': post.area,
         'rooms': rooms,
         'payment_frequency': post.payment_frequency,
-        'locaton': post.location
+        'location': post.location,
       }),
     );
-    if (response.statusCode == 200) {
+
+    if (response.statusCode == 201) {
+      try {
+        return Post.fromJson(jsonDecode(response.body));
+      } catch (e) {
+        print("the error");
+        print(e);
+      }
       return Post.fromJson(jsonDecode(response.body));
     } else {
+      print("failed in the above");
       throw Exception('Failed to load Post');
     }
   }
 
   Future<List<Post>> getPosts() async {
-    print(Uri.parse(baseUrl));
-    try {
-      final response = await client.get(
-        Uri.parse(baseUrl),
-        // headers: {'Authorization': 'Bearer ${DatabaseProvider.db.getToken()}'}
-      );
+    final response = await client.get(Uri.parse(baseUrl));
 
-      if (response.statusCode == 200) {
-        List<Post> posts = [];
-        List<dynamic> postse = jsonDecode(response.body);
-        for (var json in postse) {
-          print("this is the json $json");
+    if (response.statusCode == 200) {
+      List<Post> posts = [];
+      List<dynamic> postse = jsonDecode(response.body);
+      for (var json in postse) {
+        try {
           posts.add(Post.fromJson(json));
-        }
-
-        return posts;
-      } else {
-        throw Exception("failed to load Posts");
+        } catch (e) {}
       }
-    } catch (e) {
-      print(e);
+
+      return posts;
+    } else {
+      throw Exception("failed to load Posts");
     }
-    return [];
   }
 
-  Future<Post> getPost(int id) async {
+  Future<Post> getPost(String id) async {
     final response = await client.get(Uri.parse("$baseUrl/$id"));
 
     if (response.statusCode == 200) {
@@ -83,34 +84,35 @@ class PostDataProvider {
     for (var room in post.rooms) {
       rooms.add(jsonEncode(<dynamic, dynamic>{
         'type': room.type,
+        'photos': room.photos,
         'count': room.count,
       }));
     }
 
-    final response = await client.put(
-      Uri.parse(baseUrl),
+    final response = await client.patch(
+      Uri.parse("$baseUrl/${post.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
-        'id': post.id,
+        
         'title': post.title,
-        'user': post.username,
+        'user': post.user,
         'photo': post.photo,
         'price': post.price,
         'area': post.area,
         'rooms': rooms,
         'payment_frequency': post.payment_frequency,
-        'locaton': post.location
+        'location': post.location
       }),
     );
 
-    if (response.statusCode == 204) {
+    if (response.statusCode != 200) {
       throw Exception("failed to update course");
     }
   }
 
-  Future<void> deletePost(int id) async {
+  Future<void> deletePost(String id) async {
     final response = await client.delete(
       Uri.parse("$baseUrl/$id"),
       headers: <String, String>{
