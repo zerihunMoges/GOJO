@@ -117,13 +117,13 @@ class _PostListState extends State<PostList> {
                 setState(() {
                   _isFilteron = !_isFilteron;
                 });
-                postBloc.add(PostFilter([
-                  _currentRangeValues.start,
-                  _currentRangeValues.end
-                ], [
-                  _currentareaRangeValues.start,
-                  _currentareaRangeValues.end
-                ], "house", posts!, searchCtrl.text, ''));
+                postBloc.add(PostFilter( priceRange: [
+                            _currentRangeValues.start,
+                            _currentRangeValues.end
+                          ], area: [
+                            _currentareaRangeValues.start,
+                            _currentareaRangeValues.end
+                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
               },
               child: Text("Apply",
                   style: TextStyle(
@@ -150,13 +150,13 @@ class _PostListState extends State<PostList> {
                       Expanded(
                           child: CupertinoSearchTextField(
                         onChanged: (query) {
-                          postBloc.add(PostFilter([
+                          postBloc.add(PostFilter( priceRange: [
                             _currentRangeValues.start,
                             _currentRangeValues.end
-                          ], [
+                          ], area: [
                             _currentareaRangeValues.start,
                             _currentareaRangeValues.end
-                          ], "house", posts!, searchCtrl.text, ''));
+                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
                         },
                         controller: searchCtrl,
                         prefixInsets: EdgeInsets.all(10),
@@ -197,13 +197,13 @@ class _PostListState extends State<PostList> {
                   builder: (_, state) {
                     if (state is PostLoading) {
                       postBloc
-                        ..add(PostFilter([
-                          _currentRangeValues.start,
-                          _currentRangeValues
-                        ], [
-                          _currentareaRangeValues.start,
-                          _currentareaRangeValues.end
-                        ], type, posts, searchCtrl.text, ''));
+                        ..add(PostFilter( priceRange: [
+                            _currentRangeValues.start,
+                            _currentRangeValues.end
+                          ], area: [
+                            _currentareaRangeValues.start,
+                            _currentareaRangeValues.end
+                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
                     }
                     if (state is PostOperationFailure) {
                       return Center(
@@ -276,7 +276,7 @@ class _PostListState extends State<PostList> {
                                                       MainAxisSize.min,
                                                   children: [
                                                     Text(
-                                                      "4.5",
+                                                      "",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 13,
@@ -335,7 +335,7 @@ class _PostListState extends State<PostList> {
                                                               .solid),
                                                     ),
                                                     child: Text(
-                                                      "Apartment",
+                                                      "${post.type}",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 65, 84, 252),

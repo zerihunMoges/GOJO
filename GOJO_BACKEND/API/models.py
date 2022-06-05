@@ -4,14 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class Room(models.Model):
-    type = models.CharField(max_length=200)
-    photo = models.ImageField()
-    count = models.IntegerField()
 
-    def __str__(self) -> str:
-        return self.type
-# Create your models here.
 
 
 class Chat(models.Model):

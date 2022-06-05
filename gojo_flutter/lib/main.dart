@@ -6,6 +6,8 @@ import 'package:gojo_flutter/auth/index.dart';
 import 'package:gojo_flutter/auth/repository/authentication_repository.dart';
 import 'package:gojo_flutter/auth/screen/profilesetting.dart';
 import 'package:gojo_flutter/database.dart';
+import 'package:gojo_flutter/post/screens/edit_post.dart';
+import 'package:gojo_flutter/post/screens/user_posts.dart';
 // import 'package:gojo_flutter/pages/chats.dart';
 // import 'package:gojo_flutter/pages/search.dart';
 import './auth/screen/profile.dart';
@@ -84,8 +86,16 @@ class GOJO extends StatelessWidget {
         builder: (context, state) => PostDetail(state.extra! as Post),
       ),
       GoRoute(
+        path: "/posts",
+        builder: (context, state) => PostList(state.extra! as List<dynamic>),
+      ),
+      GoRoute(
         path: "/createPost",
         builder: (context, state) => CreatePost(),
+      ),
+      GoRoute(
+        path: "/editPost",
+        builder: (context, state) => EditPost(state.extra! as Post),
       ),
       GoRoute(
         path: "/profile",
@@ -94,6 +104,10 @@ class GOJO extends StatelessWidget {
       GoRoute(
         path: "/settings",
         builder: (context, state) => ProfileSetting(state.extra! as User),
+      ),
+      GoRoute(
+        path: "/myPost",
+        builder: (context, state) => UserPosts(state.extra! as String),
       ),
       GoRoute(
         path: "/signup",

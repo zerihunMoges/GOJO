@@ -48,7 +48,13 @@ class PostFilter extends PostEvent {
   final String query;
   final String userid;
 
-  PostFilter(this.priceRange, this.area, this.type, this.posts, this.query, this.userid);
+  PostFilter(
+      {required this.priceRange,
+      required this.area,
+      required this.type,
+      required this.posts,
+      required this.query,
+      required this.userid});
 }
 
 class PostDelete extends PostEvent {
