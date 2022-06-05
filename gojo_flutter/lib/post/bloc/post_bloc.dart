@@ -77,7 +77,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
               post.location
                   .toString()
                   .toLowerCase()
-                  .contains(event.query.toLowerCase()))
+                  .contains(event.query.toLowerCase())&& post.type.toString().toLowerCase().contains(event.type))
           .toList();
       emit(PostFilterSuccess(searched));
     }

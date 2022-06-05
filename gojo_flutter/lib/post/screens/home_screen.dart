@@ -465,7 +465,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       MainAxisSize.min,
                                                   children: [
                                                     Text(
-                                                      "4.5",
+                                                      "",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 13,
@@ -524,7 +524,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               .solid),
                                                     ),
                                                     child: Text(
-                                                      "Apartment",
+                                                      "${post.type}",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 65, 84, 252),
