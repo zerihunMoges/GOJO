@@ -118,17 +118,19 @@ class LogOutView(APIView):
 
 class PostsView(APIView):
     # permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
-
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+    print("post called")
     def get(self, request):
         print(request.user)
         posts = Post.objects.all()
         serialized = PostSerializer(posts, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
 
-    def post(self, request, format=None):
+    def post(self, request):
         data = request.data
+        print(request)
         serialized = PostSerializer(data=data)
+        
         if serialized.is_valid():
             serialized.save()
             return Response(serialized.data, status=status.HTTP_201_CREATED)
@@ -137,7 +139,7 @@ class PostsView(APIView):
 
 class PostView(APIView):
     # permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, JSONParser]
 
     def get(self, request, pk):
         try:

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,12 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
   PostRepository postRepository =
       PostRepository(dataProvider: PostDataProvider());
   List<Post>? posts;
+  final PostBloc postBloc =
+      PostBloc(PostRepository(dataProvider: PostDataProvider()))
+        ..add(PostLoad());
+  var searchCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final PostBloc postBloc = PostBloc(postRepository);
-    postBloc.add(const PostLoad());
-
-    final searchCtrl = TextEditingController();
     Widget filter = Container(
       padding: EdgeInsets.all(20),
       child: Column(
@@ -109,6 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 setState(() {
                   _isFilteron = !_isFilteron;
                 });
+                postBloc.add(PostFilter([
+                  _currentRangeValues.start,
+                  _currentRangeValues.end
+                ], [
+                  _currentareaRangeValues.start,
+                  _currentareaRangeValues.end
+                ], "house", posts!, searchCtrl.text));
               },
               child: Text("Apply",
                   style: TextStyle(
@@ -134,6 +143,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Expanded(
                           child: CupertinoSearchTextField(
+                        onChanged: (query) {
+                          postBloc.add(PostFilter([
+                            _currentRangeValues.start,
+                            _currentRangeValues.end
+                          ], [
+                            _currentareaRangeValues.start,
+                            _currentareaRangeValues.end
+                          ], "house", posts!, searchCtrl.text));
+                        },
                         controller: searchCtrl,
                         prefixInsets: EdgeInsets.all(10),
                         borderRadius: BorderRadius.circular(30),
@@ -149,14 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: IconButton(
                               iconSize: 30,
                               onPressed: () {
-                                postBloc.add(PostFilter([
-                                  _currentRangeValues.start,
-                                  _currentRangeValues.end
-                                ], [
-                                  _currentareaRangeValues.start,
-                                  _currentareaRangeValues.end
-                                ], "house", posts!, searchCtrl.text));
-
                                 setState(() {
                                   _isFilteron = !_isFilteron;
                                 });
@@ -173,6 +183,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   : Container(
                       height: 0,
                     ),
+              Container(
+                padding: EdgeInsets.only(left: 25),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Hello,",
+                        style: TextStyle(
+                            color: Color.fromARGB(221, 41, 40, 40),
+                            fontWeight: FontWeight.w900,
+                            fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Andrew Velle"),
+                      SizedBox(
+                        height: 5,
+                      ),
+                    ]),
+              ),
+              Stack(children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    clipBehavior: Clip.antiAlias,
+                    child: Opacity(
+                        opacity: 0.9,
+                        child: Image.asset("homeimage.jpg",
+                            fit: BoxFit.cover,
+                            color: Color.fromARGB(75, 0, 0, 0),
+                            colorBlendMode: BlendMode.overlay)),
+                  ),
+                ),
+                Positioned(
+                    top: 20,
+                    left: 40,
+                    child: Text(
+                      "Welcome To Gojo",
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          backgroundColor: Color.fromARGB(76, 0, 0, 0),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 40),
+                    ))
+              ]),
               Container(
                 height: 140,
                 child: ListView(
@@ -338,11 +397,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                     if (state is PostLoadSuccess) {
                       this.posts = state.posts;
-                      print(this.posts![0].photo);
                     }
 
                     if (state is PostLoadSuccess ||
                         state is PostFilterSuccess) {
+                      print(state.posts);
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.only(left: 10),
@@ -353,7 +412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Post post = state.posts[index];
                           return GestureDetector(
                             onTap: () {
-                              context.push("/post", extra: post);
+                              context.push('/post', extra: post);
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -369,56 +428,63 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 200,
                                 child: Column(
                                   children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(15),
-                                                topRight: Radius.circular(15)),
-                                            clipBehavior: Clip.antiAlias,
-                                            child: Opacity(
-                                                opacity: 0.9,
-                                                child: Image.network(
-                                                    "http://127.0.0.1:8000${post.photo}")),
+                                    Expanded(
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(15),
+                                                  topRight:
+                                                      Radius.circular(15)),
+                                              clipBehavior: Clip.antiAlias,
+                                              child: Opacity(
+                                                  opacity: 0.9,
+                                                  child: Image.memory(
+                                                    post.photo,
+                                                    fit: BoxFit.cover,
+                                                  )),
+                                            ),
                                           ),
-                                        ),
-                                        Positioned(
-                                            top: 10,
-                                            right: 10,
-                                            child: Container(
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  color: Color.fromARGB(
-                                                      171, 189, 187, 187)),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Text(
-                                                    "4.5",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 3,
-                                                  ),
-                                                  Icon(
-                                                    Icons.star,
-                                                    size: 15,
+                                          Positioned(
+                                              top: 10,
+                                              right: 10,
+                                              child: Container(
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
                                                     color: Color.fromARGB(
-                                                        255, 250, 230, 55),
-                                                  )
-                                                ],
-                                              ),
-                                            ))
-                                      ],
+                                                        171, 189, 187, 187)),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      "4.5",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 13,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Icon(
+                                                      Icons.star,
+                                                      size: 15,
+                                                      color: Color.fromARGB(
+                                                          255, 250, 230, 55),
+                                                    )
+                                                  ],
+                                                ),
+                                              ))
+                                        ],
+                                      ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -498,7 +564,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Text(
                                             post.title,
                                             style: TextStyle(
-                                                overflow: TextOverflow.ellipsis,
                                                 letterSpacing: 0.5,
                                                 color: Color.fromARGB(
                                                     255, 0, 0, 0),
@@ -527,6 +592,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     fontSize: 12),
                                               ),
                                               Expanded(child: SizedBox()),
+                                              IconButton(
+                                                splashRadius: 20,
+                                                onPressed: () {},
+                                                icon: Icon(
+                                                  Icons.favorite_border,
+                                                  color: Color.fromARGB(
+                                                      255, 88, 97, 179),
+                                                ),
+                                              )
                                             ],
                                           )
                                         ],
@@ -534,243 +608,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     )
                                   ],
                                 ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }
-
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Near By Me",
-                        style: TextStyle(
-                            color: Color.fromARGB(221, 41, 40, 40),
-                            fontWeight: FontWeight.w900,
-                            fontSize: 20),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "See all",
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 15),
-                          )),
-                    ]),
-              ),
-              Container(
-                height: 263,
-                child: BlocBuilder<PostBloc, PostState>(
-                  builder: (_, state) {
-                    if (state is PostOperationFailure) {
-                      return Center(
-                        child: Icon(Icons.replay_circle_filled_outlined),
-                      );
-                    }
-                    if (state is PostLoadSuccess ||
-                        state is PostFilterSuccess) {
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(left: 10),
-                        physics: BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics()),
-                        itemCount: state.posts.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          Post post = state.posts[index];
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              side: BorderSide(
-                                  width: 0.25,
-                                  color: Color.fromARGB(151, 153, 152, 152),
-                                  style: BorderStyle.solid),
-                            ),
-                            elevation: 0,
-                            child: Container(
-                              width: 200,
-                              child: Column(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(15),
-                                              topRight: Radius.circular(15)),
-                                          clipBehavior: Clip.antiAlias,
-                                          child: Opacity(
-                                              opacity: 0.9,
-                                              child: Image.network(
-                                                  "http://127.0.0.1:8000${post.photo}")),
-                                        ),
-                                      ),
-                                      Positioned(
-                                          top: 10,
-                                          right: 10,
-                                          child: Container(
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: Color.fromARGB(
-                                                    171, 189, 187, 187)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                  "4.5",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                SizedBox(
-                                                  width: 3,
-                                                ),
-                                                Icon(
-                                                  Icons.star,
-                                                  size: 15,
-                                                  color: Color.fromARGB(
-                                                      255, 250, 230, 55),
-                                                )
-                                              ],
-                                            ),
-                                          ))
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10, top: 5, right: 10, bottom: 5),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            SizedBox(
-                                              height: 25,
-                                              child: TextButton(
-                                                  clipBehavior: Clip.antiAlias,
-                                                  onPressed: () {},
-                                                  style: TextButton.styleFrom(
-                                                    padding: EdgeInsets.only(
-                                                        left: 10, right: 10),
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20))),
-                                                    side: BorderSide(
-                                                        width: 1,
-                                                        color: Color.fromARGB(
-                                                            255, 65, 84, 252),
-                                                        style:
-                                                            BorderStyle.solid),
-                                                  ),
-                                                  child: Text(
-                                                    "Apartment",
-                                                    style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 65, 84, 252),
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        fontSize: 10),
-                                                  )),
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  post.price.toString(),
-                                                  style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 65, 84, 252),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 15),
-                                                ),
-                                                Text(
-                                                  "/${post.payment_frequency}",
-                                                  style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 151, 161, 253),
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontSize: 10),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          post.title,
-                                          style: TextStyle(
-                                              letterSpacing: 0.5,
-                                              color:
-                                                  Color.fromARGB(255, 0, 0, 0),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Icon(
-                                              Icons.location_on,
-                                              color: Color.fromARGB(
-                                                  255, 88, 97, 179),
-                                              size: 15,
-                                            ),
-                                            Text(
-                                              post.location,
-                                              style: TextStyle(
-                                                  color: Color.fromARGB(
-                                                      206, 29, 29, 29),
-                                                  fontWeight: FontWeight.w300,
-                                                  fontSize: 12),
-                                            ),
-                                            Expanded(child: SizedBox()),
-                                            IconButton(
-                                              splashRadius: 20,
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.favorite_border,
-                                                color: Color.fromARGB(
-                                                    255, 88, 97, 179),
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
                               ),
                             ),
                           );

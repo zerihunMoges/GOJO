@@ -20,7 +20,7 @@ class PostRepository {
     await dataProvider.updatePost(post);
   }
 
-  Future<void> deletePost(int id) async {
+  Future<void> deletePost(String id) async {
     await dataProvider.deletePost(id);
   }
 }

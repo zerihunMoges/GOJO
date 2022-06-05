@@ -14,6 +14,8 @@ class PostLoading extends PostState {}
 
 class PostCreating extends PostState {}
 
+class PostCreateSuccess extends PostState {}
+
 class PostLoadSuccess extends PostState {
   final List<Post> posts;
 

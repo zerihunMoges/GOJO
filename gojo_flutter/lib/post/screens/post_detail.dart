@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:gojo_flutter/post/models/post.dart';
 
@@ -11,6 +13,13 @@ class PostDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List gallery = [];
+    for (var gal in post.rooms) {
+      for (var pho in gal.photos) {
+        gallery.add(Uint8List.fromList(List<int>.from(pho)) );
+      }
+      
+    }
     return Scaffold(
       body: Column(
         children: [
@@ -20,11 +29,11 @@ class PostDetail extends StatelessWidget {
               child: Stack(
                 children: [
                   SizedBox(
-                    width: 500,
-                    height: 250,
-                    child: Image.asset(
-                      "assets/food_1.jpeg",
-                      fit: BoxFit.fill,
+                    height: MediaQuery.of(context).size.height*0.35,
+                    width:  MediaQuery.of(context).size.width,
+                    child: Image.memory(
+                      post.photo,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ],
@@ -83,7 +92,7 @@ class PostDetail extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 10,
+                                        width: 7,
                                       ),
                                       Text(
                                         "${room.count}  ${room.type}",
@@ -91,7 +100,10 @@ class PostDetail extends StatelessWidget {
                                           color: Colors.black87,
                                           fontSize: 15,
                                         ),
-                                      )
+                                      ),
+                                       SizedBox(
+                                        width: 10,
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -166,7 +178,7 @@ class PostDetail extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               // ignore: prefer_const_literals_to_create_immutables
                               children: [
-                                Text("${post.username}",
+                                Text("${post.location}",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -217,7 +229,7 @@ class PostDetail extends StatelessWidget {
                           height: 100,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: 10,
+                            itemCount: gallery.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Stack(
                                 children: [
@@ -227,9 +239,9 @@ class PostDetail extends StatelessWidget {
                                     child: Card(
                                       semanticContainer: true,
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      child: Image.asset(
-                                        'assets/home.jpg',
-                                        fit: BoxFit.fill,
+                                      child: Image.memory(
+                                       Uint8List.fromList(List<int>.from(gallery[index])),
+                                       fit: BoxFit.cover,
                                       ),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:

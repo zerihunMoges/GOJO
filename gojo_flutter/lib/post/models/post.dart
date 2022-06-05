@@ -1,13 +1,15 @@
-
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:gojo_flutter/user/models/user.dart';
 
 class Post extends Equatable {
   Post({
     required this.id,
     required this.title,
-    required this.username,
+    required this.user,
     required this.photo,
     required this.price,
     required this.area,
@@ -16,53 +18,52 @@ class Post extends Equatable {
     required this.location,
   });
 
-  final int id;
+  final String id;
   final String title;
-  final int username;
-  final String photo;
-  final double price;
-  final double area;
+  final String user;
+  final Uint8List photo;
+  final String price;
+  final String area;
   final List<Room> rooms;
-  final int payment_frequency;
+  final String payment_frequency;
   final String location;
 
-  factory Post.fromJson(Map<dynamic, dynamic> json) {
+  factory Post.fromJson(json) {
     List<Room> rooms = [];
     for (var item in json['rooms']) {
       rooms.add(Room.fromJson(item));
     }
     return Post(
-        id: json['id'],
-        title: json['title'],
-        username: json['user'],
-        photo: json['photo'],
-        price: json['price'],
-        area: json['area'],
+        id: json['id'].toString(),
+        title: json['title'].toString(),
+        user: json['user'].toString(),
+        photo: Uint8List.fromList(List<int>.from(json['photo'])),
+        price: json['price'].toString(),
+        area: json['area'].toString(),
         rooms: rooms,
-        payment_frequency: json['payment_frequency'],
-        location: json['location']);
+        payment_frequency: json['payment_frequency'].toString(),
+        location: json['location'].toString());
   }
   @override
-
   List<Object?> get props =>
-      [id, title, username, photo, price, area, rooms, payment_frequency, location];
+      [id, title, photo, price, area, rooms, payment_frequency, location];
 }
 
 class Room extends Equatable {
-  Room({required this.id, required this.type, required this.count});
+  Room({required this.type, required this.photos, required this.count});
 
-  final int id;
   final String type;
-  final int count;
+  final List<dynamic> photos;
+  final String count;
 
-  factory Room.fromJson(Map<dynamic, dynamic> json) {
+  factory Room.fromJson(json) {
     return Room(
-        id: json['id'],
-        type: json['type'],
-        count: json['count']);
+        type: json['type'].toString(),
+        photos: json['photos'],
+        count: json['count'].toString());
   }
   @override
-  List<Object?> get props => [id, type, count];
+  List<Object?> get props => [type, photos, count];
 }
 
 // class User extends Equatable {
