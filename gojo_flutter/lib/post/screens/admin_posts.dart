@@ -133,7 +133,7 @@ class AdminPost extends StatelessWidget {
                                             onPressed: () {
                                               BlocProvider.of<PostBloc>(context)
                                                   .add(PostDelete(
-                                                      state.posts[index]));
+                                                      state.posts[index].id));
                                             },
                                             icon: Icon(
                                               Icons.delete,

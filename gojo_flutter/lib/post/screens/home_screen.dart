@@ -340,36 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ]),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.only(
-                          left: 30, top: 20, right: 30, bottom: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              width: 0.5,
-                              color: Color.fromARGB(255, 170, 187, 216))),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor:
-                                  Color.fromARGB(255, 233, 235, 252),
-                              child: Icon(
-                                Icons.group,
-                                size: 30,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Room Mate",
-                              style: TextStyle(fontWeight: FontWeight.w900),
-                            )
-                          ]),
-                    ),
+                    
                   ],
                 ),
               ),
@@ -465,7 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       MainAxisSize.min,
                                                   children: [
                                                     Text(
-                                                      "4.5",
+                                                      "",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 13,
@@ -524,7 +495,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               .solid),
                                                     ),
                                                     child: Text(
-                                                      "Apartment",
+                                                      "${post.type}",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 65, 84, 252),

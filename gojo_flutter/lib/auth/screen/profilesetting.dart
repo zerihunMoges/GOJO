@@ -194,7 +194,9 @@ class ProfileSetting extends StatelessWidget {
               height: 10,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.push("/myposts", extra: user.id);
+              },
               child: Row(
                 children: [
                   SizedBox(
@@ -204,7 +206,7 @@ class ProfileSetting extends StatelessWidget {
                     radius: 30,
                     backgroundColor: Color.fromARGB(255, 233, 235, 252),
                     child: Icon(
-                      Icons.help,
+                      Icons.my_library_add,
                       size: 30,
                     ),
                   ),
@@ -212,7 +214,7 @@ class ProfileSetting extends StatelessWidget {
                     width: 20,
                   ),
                   Text(
-                    "Help",
+                    "My Posts",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
@@ -239,7 +241,9 @@ class ProfileSetting extends StatelessWidget {
               height: 10,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.push('/login');
+              },
               child: Row(
                 children: [
                   SizedBox(

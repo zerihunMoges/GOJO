@@ -31,7 +31,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       await postRepository.createPost(event.post);
 
       final posts = await postRepository.getPosts();
-      emit(PostLoadSuccess(posts));
+      if(posts != null) emit(PostLoadSuccess(posts));
     } catch (_) {
       emit(PostOperationFailure());
     }
@@ -51,7 +51,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   void _onPostDelete(PostDelete event, Emitter emit) async {
     emit(PostDeleting());
     try {
-      await postRepository.deletePost(event.post.id);
+      await postRepository.deletePost(event.post);
       final posts = await postRepository.getPosts();
       emit(PostDeleteSuccess());
     } catch (_) {
@@ -64,20 +64,20 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     
       List<Post> searched = event.posts
           .where((post) =>
-              post.user.toString() == event.userid.toString() )
+              post.user.toString().toLowerCase() == event.userid.toString().toLowerCase() )
           .toList();
       emit(PostFilterSuccess(searched));
     } else {
       List<Post> searched = event.posts
           .where((post) =>
-              post.title
+              (post.title
                   .toString()
                   .toLowerCase()
                   .contains(event.query.toLowerCase()) ||
               post.location
                   .toString()
                   .toLowerCase()
-                  .contains(event.query.toLowerCase()))
+                  .contains(event.query.toLowerCase()))&& post.type.toString().toLowerCase().contains(event.type.toString().toLowerCase()) )
           .toList();
       emit(PostFilterSuccess(searched));
     }

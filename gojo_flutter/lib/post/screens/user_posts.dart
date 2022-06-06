@@ -13,19 +13,17 @@ import 'package:gojo_flutter/post/repository/post_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meta/meta.dart';
 
-class PostList extends StatefulWidget {
-  final input;
-  PostList(@required this.input);
-  
+class UserPosts extends StatefulWidget {
+  final data;
+  UserPosts([@required this.data]);
 
   @override
-  State<PostList> createState() => _PostListState(input[0], input[1]);
+  State<UserPosts> createState() => _UserPostsState(data);
 }
 
-class _PostListState extends State<PostList> {
-  var type;
-  final posts;
-  _PostListState(List<Post> this.posts, this.type);
+class _UserPostsState extends State<UserPosts> {
+  final user;
+  _UserPostsState(this.user);
   int _idx = 0;
   // List pages = [
   //   Profile(User(
@@ -56,83 +54,12 @@ class _PostListState extends State<PostList> {
       PostRepository(dataProvider: PostDataProvider());
 
   final PostBloc postBloc =
-      PostBloc(PostRepository(dataProvider: PostDataProvider()));
+      PostBloc(PostRepository(dataProvider: PostDataProvider()))
+        ..add(PostLoad());
 
   var searchCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    Widget filter = Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Price Range",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-              )),
-          RangeSlider(
-            values: _currentRangeValues,
-            max: 1000000,
-            divisions: 1000,
-            labels: RangeLabels(
-              _currentRangeValues.start.round().toString(),
-              _currentRangeValues.end.round().toString(),
-            ),
-            onChanged: (RangeValues values) {
-              setState(() {
-                _currentRangeValues = values;
-              });
-            },
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text("Area Range",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-              )),
-          RangeSlider(
-            values: _currentareaRangeValues,
-            max: 8000,
-            divisions: 100,
-            labels: RangeLabels(
-              _currentareaRangeValues.start.round().toString(),
-              _currentareaRangeValues.end.round().toString(),
-            ),
-            onChanged: (RangeValues values) {
-              setState(() {
-                _currentareaRangeValues = values;
-              });
-            },
-          ),
-          TextButton(
-              style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Color.fromARGB(255, 88, 155, 241),
-                  onSurface: Colors.grey,
-                  padding: EdgeInsets.all(20)),
-              onPressed: () {
-                setState(() {
-                  _isFilteron = !_isFilteron;
-                });
-                postBloc.add(PostFilter( priceRange: [
-                            _currentRangeValues.start,
-                            _currentRangeValues.end
-                          ], area: [
-                            _currentareaRangeValues.start,
-                            _currentareaRangeValues.end
-                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
-              },
-              child: Text("Apply",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ))),
-        ],
-      ),
-    );
-
     return BlocProvider(
       create: (_) => postBloc,
       child: Scaffold(
@@ -143,75 +70,27 @@ class _PostListState extends State<PostList> {
                 BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: CupertinoSearchTextField(
-                        onChanged: (query) {
-                          postBloc.add(PostFilter( priceRange: [
-                            _currentRangeValues.start,
-                            _currentRangeValues.end
-                          ], area: [
-                            _currentareaRangeValues.start,
-                            _currentareaRangeValues.end
-                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
-                        },
-                        controller: searchCtrl,
-                        prefixInsets: EdgeInsets.all(10),
-                        borderRadius: BorderRadius.circular(30),
-                      )),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(221, 224, 223, 223),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: IconButton(
-                              iconSize: 30,
-                              onPressed: () {
-                                setState(() {
-                                  _isFilteron = !_isFilteron;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.filter_list_rounded,
-                              )),
-                        ),
-                      )
-                    ],
-                  )),
-              _isFilteron == true
-                  ? filter
-                  : Container(
-                      height: 0,
-                    ),
-              
-              Container(
                 height: MediaQuery.of(context).size.height,
-
                 child: BlocBuilder<PostBloc, PostState>(
                   builder: (_, state) {
-                    if (state is PostLoading) {
-                      postBloc
-                        ..add(PostFilter( priceRange: [
+                    if (state is PostLoadSuccess) {
+                      print("loaded successfully");
+                      postBloc.add(PostFilter( priceRange: [
                             _currentRangeValues.start,
                             _currentRangeValues.end
                           ], area: [
                             _currentareaRangeValues.start,
                             _currentareaRangeValues.end
-                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
+                          ], type:'', posts: state.posts,query: searchCtrl.text,userid: user));
                     }
                     if (state is PostOperationFailure) {
                       return Center(
-                        child: Text("Failed"),
+                        child: Text("retry"),
                       );
                     }
 
                     if (state is PostFilterSuccess) {
+                      print("filtered successfuly");
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         padding: EdgeInsets.only(left: 10),
@@ -222,7 +101,7 @@ class _PostListState extends State<PostList> {
                           Post post = state.posts[index];
                           return GestureDetector(
                             onTap: () {
-                              context.push('/post', extra: post);
+                              context.push('/editpost', extra: post);
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -243,7 +122,9 @@ class _PostListState extends State<PostList> {
                                       child: Stack(
                                         children: [
                                           Container(
-                                            width: MediaQuery.of(context).size.width,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(15),
@@ -275,23 +156,12 @@ class _PostListState extends State<PostList> {
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: [
-                                                    Text(
-                                                      "",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 13,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 3,
-                                                    ),
                                                     Icon(
-                                                      Icons.star,
-                                                      size: 15,
-                                                      color: Color.fromARGB(
-                                                          255, 250, 230, 55),
-                                                    )
+                                                      Icons.edit,
+                                                      size: 30,
+                                                      color: Colors.black,
+                                                    ),
+                                                    
                                                   ],
                                                 ),
                                               ))
@@ -335,7 +205,7 @@ class _PostListState extends State<PostList> {
                                                               .solid),
                                                     ),
                                                     child: Text(
-                                                      "${post.type}",
+                                                      "Apartment",
                                                       style: TextStyle(
                                                           color: Color.fromARGB(
                                                               255, 65, 84, 252),

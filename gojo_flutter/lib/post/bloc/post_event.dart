@@ -58,7 +58,7 @@ class PostFilter extends PostEvent {
 }
 
 class PostDelete extends PostEvent {
-  final Post post;
+  final String post;
 
   const PostDelete(this.post);
 

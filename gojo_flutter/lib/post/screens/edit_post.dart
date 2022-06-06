@@ -466,7 +466,8 @@ class _EditPostState extends State<EditPost> {
                   }
 
                   if (state is PostDeleteSuccess) {
-                    context.pop();
+                    buttonChild = const Text("Post Deleted");
+                    context.pushNamed('/home');
                   }
 
                   return Center(
@@ -523,29 +524,7 @@ class _EditPostState extends State<EditPost> {
                           TextButton(
                             autofocus: true,
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                List<Room> rooms = [];
-                                roomsdata.forEach((key, value) {
-                                  if (int.parse(roomsdata[key]![0].text) > 0) {
-                                    rooms.add(Room(
-                                        photos: roomsdata[key]![1],
-                                        type: key,
-                                        count: roomsdata[key]![0].text));
-                                  }
-                                });
-
-                                postBloc.add(PostDelete(Post(
-                                    id: post.id,
-                                    title: titleCtrl.text,
-                                    type: dropdownvalue,
-                                    user: post.user,
-                                    photo: pickedFile!.bytes!,
-                                    price: priceCtrl.text,
-                                    area: areaCtrl.text,
-                                    rooms: rooms,
-                                    payment_frequency: frequencyCtrl.text,
-                                    location: locationCtrl.text)));
-                              }
+                              postBloc.add(PostDelete(post.id));
                             },
                             style: TextButton.styleFrom(
                                 primary: Colors.white,

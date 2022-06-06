@@ -79,25 +79,28 @@ class PostDataProvider {
   }
 
   Future<void> updatePost(Post post) async {
-    List<String> rooms = [];
+    List<Map> rooms = [];
 
     for (var room in post.rooms) {
-      rooms.add(jsonEncode(<dynamic, dynamic>{
+      rooms.add(
+        {
         'type': room.type,
         'photos': room.photos,
         'count': room.count,
-      }));
+      }
+      );
     }
 
-    final response = await client.patch(
+    final response = await client.put(
       Uri.parse("$baseUrl/${post.id}"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<dynamic, dynamic>{
-        
+        'id':post.id,
         'title': post.title,
         'user': post.user,
+        'type': post.type,
         'photo': post.photo,
         'price': post.price,
         'area': post.area,
@@ -119,8 +122,9 @@ class PostDataProvider {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    if (response.statusCode == 204) {
+    if (response.statusCode != 204) {
       throw Exception("failed to delete Post");
     }
+    
   }
 }

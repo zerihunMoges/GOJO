@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gojo_flutter/auth/bloc/auth_bloc.dart';
 import 'package:gojo_flutter/auth/bloc/auth_state.dart';
 import 'package:gojo_flutter/chat_room/chat_room.dart';
-import 'package:grouped_list/grouped_list.dart';
-import 'package:intl/intl.dart';
-import 'package:bubble/bubble.dart';
+
 import 'package:go_router/go_router.dart';
 
 // class ChatDetail extends StatefulWidget {

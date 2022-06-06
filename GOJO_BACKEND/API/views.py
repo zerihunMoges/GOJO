@@ -143,7 +143,7 @@ class PostsView(APIView):
 
 class PostView(APIView):
     # permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get(self, request, pk):
         try:
