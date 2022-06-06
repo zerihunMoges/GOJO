@@ -80,8 +80,8 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          title: Text("Edit Profile", style: TextStyle(color: Colors.black)),
+          backgroundColor: Color.fromARGB(255, 168, 168, 168),
+          title: Text("Edit Profile",),
         ),
         body: Container(
             child: ListView(

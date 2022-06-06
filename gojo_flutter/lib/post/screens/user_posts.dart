@@ -63,6 +63,11 @@ class _UserPostsState extends State<UserPosts> {
     return BlocProvider(
       create: (_) => postBloc,
       child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Color.fromARGB(255, 168, 168, 168),
+          title: Text("My Posts",),
+        ),
         body: Container(
           child: ListView(
             scrollDirection: Axis.vertical,

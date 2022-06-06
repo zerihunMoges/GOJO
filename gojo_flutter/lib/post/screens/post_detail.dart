@@ -16,11 +16,17 @@ class PostDetail extends StatelessWidget {
     List gallery = [];
     for (var gal in post.rooms) {
       for (var pho in gal.photos) {
-        gallery.add(Uint8List.fromList(List<int>.from(pho)) );
+        gallery.add(Uint8List.fromList(List<int>.from(pho)));
       }
-      
     }
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Color.fromARGB(255, 168, 168, 168),
+        title: Text(
+          "${post.title}",
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -29,8 +35,8 @@ class PostDetail extends StatelessWidget {
               child: Stack(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height*0.35,
-                    width:  MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    width: MediaQuery.of(context).size.width,
                     child: Image.memory(
                       post.photo,
                       fit: BoxFit.cover,
@@ -101,7 +107,7 @@ class PostDetail extends StatelessWidget {
                                           fontSize: 15,
                                         ),
                                       ),
-                                       SizedBox(
+                                      SizedBox(
                                         width: 10,
                                       ),
                                     ],
@@ -240,8 +246,9 @@ class PostDetail extends StatelessWidget {
                                       semanticContainer: true,
                                       clipBehavior: Clip.antiAliasWithSaveLayer,
                                       child: Image.memory(
-                                       Uint8List.fromList(List<int>.from(gallery[index])),
-                                       fit: BoxFit.cover,
+                                        Uint8List.fromList(
+                                            List<int>.from(gallery[index])),
+                                        fit: BoxFit.cover,
                                       ),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:

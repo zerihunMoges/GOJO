@@ -11,8 +11,8 @@ class ProfileSetting extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          title: Text("Setting", style: TextStyle(color: Colors.black)),
+          backgroundColor: Color.fromARGB(255, 168, 168, 168),
+          title: Text("Setting",),
         ),
         body: Container(
             child: ListView(
@@ -242,7 +242,7 @@ class ProfileSetting extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                context.push('/login');
+                context.push('/');
               },
               child: Row(
                 children: [

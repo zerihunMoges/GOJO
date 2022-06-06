@@ -86,8 +86,10 @@ class _CreatePostState extends State<CreatePost> {
       create: (_) => postBloc,
       child: Scaffold(
           appBar: AppBar(
-            title: Text("Create Post"),
-          ),
+          elevation: 0,
+          backgroundColor: Color.fromARGB(255, 168, 168, 168),
+          title: Text("Create Post",),
+        ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
