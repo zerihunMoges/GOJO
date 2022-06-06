@@ -106,10 +106,6 @@ class GOJO extends StatelessWidget {
         builder: (context, state) => ProfileSetting(state.extra! as User),
       ),
       GoRoute(
-        path: "/myPost",
-        builder: (context, state) => UserPosts(state.extra! as String),
-      ),
-      GoRoute(
         path: "/signup",
         builder: (context, state) => BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(

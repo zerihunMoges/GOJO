@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 @immutable
 class Chat extends Equatable {
@@ -27,7 +26,7 @@ class Chat extends Equatable {
         id: json['id'].toString(),
         owner1: json['owner1'],
         owner2: json['owner2'],
-        time: DateFormat.jm().format(now),
+        time: now.toString(),
         lastMessage: json['last_message'].toString());
   }
   //   print("chat is $cht");

@@ -11,12 +11,10 @@ import 'package:gojo_flutter/post/dataprovider/post_data.dart';
 import 'package:gojo_flutter/post/models/post.dart';
 import 'package:gojo_flutter/post/repository/post_repository.dart';
 import 'package:go_router/go_router.dart';
-import 'package:meta/meta.dart';
 
 class PostList extends StatefulWidget {
   final input;
   PostList(@required this.input);
-  
 
   @override
   State<PostList> createState() => _PostListState(input[0], input[1]);
@@ -117,13 +115,19 @@ class _PostListState extends State<PostList> {
                 setState(() {
                   _isFilteron = !_isFilteron;
                 });
-                postBloc.add(PostFilter( priceRange: [
-                            _currentRangeValues.start,
-                            _currentRangeValues.end
-                          ], area: [
-                            _currentareaRangeValues.start,
-                            _currentareaRangeValues.end
-                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
+                postBloc.add(PostFilter(
+                    priceRange: [
+                      _currentRangeValues.start,
+                      _currentRangeValues.end
+                    ],
+                    area: [
+                      _currentareaRangeValues.start,
+                      _currentareaRangeValues.end
+                    ],
+                    type: type,
+                    posts: posts!,
+                    query: searchCtrl.text,
+                    userid: ''));
               },
               child: Text("Apply",
                   style: TextStyle(
@@ -150,13 +154,19 @@ class _PostListState extends State<PostList> {
                       Expanded(
                           child: CupertinoSearchTextField(
                         onChanged: (query) {
-                          postBloc.add(PostFilter( priceRange: [
-                            _currentRangeValues.start,
-                            _currentRangeValues.end
-                          ], area: [
-                            _currentareaRangeValues.start,
-                            _currentareaRangeValues.end
-                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
+                          postBloc.add(PostFilter(
+                              priceRange: [
+                                _currentRangeValues.start,
+                                _currentRangeValues.end
+                              ],
+                              area: [
+                                _currentareaRangeValues.start,
+                                _currentareaRangeValues.end
+                              ],
+                              type: type,
+                              posts: posts!,
+                              query: searchCtrl.text,
+                              userid: ''));
                         },
                         controller: searchCtrl,
                         prefixInsets: EdgeInsets.all(10),
@@ -189,21 +199,25 @@ class _PostListState extends State<PostList> {
                   : Container(
                       height: 0,
                     ),
-              
               Container(
                 height: MediaQuery.of(context).size.height,
-
                 child: BlocBuilder<PostBloc, PostState>(
                   builder: (_, state) {
                     if (state is PostLoading) {
                       postBloc
-                        ..add(PostFilter( priceRange: [
-                            _currentRangeValues.start,
-                            _currentRangeValues.end
-                          ], area: [
-                            _currentareaRangeValues.start,
-                            _currentareaRangeValues.end
-                          ], type:type, posts: posts!,query: searchCtrl.text,userid: ''));
+                        ..add(PostFilter(
+                            priceRange: [
+                              _currentRangeValues.start,
+                              _currentRangeValues.end
+                            ],
+                            area: [
+                              _currentareaRangeValues.start,
+                              _currentareaRangeValues.end
+                            ],
+                            type: type,
+                            posts: posts!,
+                            query: searchCtrl.text,
+                            userid: ''));
                     }
                     if (state is PostOperationFailure) {
                       return Center(
@@ -243,7 +257,9 @@ class _PostListState extends State<PostList> {
                                       child: Stack(
                                         children: [
                                           Container(
-                                            width: MediaQuery.of(context).size.width,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(15),
